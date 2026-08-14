@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APEX — Dentistry From the Future</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Sora:wght@200;300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#05010f; --void2:#0a0518;
+  --violet:#a855f7; --violet-d:#7c3aed;
+  --azure:#3b82f6; --azure-l:#60a5fa;
+  --magenta:#f43f5e; --red:#e11d48;
+  --cyan:#7fe7ff;
+  --pearl:#f3f0ff; --mute:#8b86a8; --faint:#544f70;
+}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--pearl);font-family:'Sora',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden;cursor:none}
+h1,h2,h3,.disp{font-family:'Syne',sans-serif}
+.mono{font-family:'Space Mono',monospace}
+
+/* WebGL canvas — the living universe */
+#universe{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
+/* atmosphere overlays */
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 50%,transparent 40%,rgba(5,1,15,.55) 100%)}
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.04;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* cursor */
+#cd,#cr{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+#cd{width:7px;height:7px;background:var(--cyan)}
+#cr{width:34px;height:34px;border:1px solid rgba(168,85,247,.6);transition:width .25s,height .25s,border-color .25s}
+#cr.g{width:60px;height:60px;border-color:var(--magenta)}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:10000;background:var(--void);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem;transition:opacity 1s ease,visibility 1s}
+#loader.done{opacity:0;visibility:hidden}
+.ldr-ring{width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(168,85,247,.2);border-top-color:var(--violet);border-right-color:var(--azure);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ldr-txt{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--mute)}
+
+/* content layer */
+.content{position:relative;z-index:2}
+
+/* nav */
+.x-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;transition:padding .4s,background .4s}
+.x-nav.s{padding:.95rem 3rem;background:rgba(5,1,15,.5);backdrop-filter:blur(22px);border-bottom:1px solid rgba(168,85,247,.1)}
+.x-logo{font-family:'Syne';font-weight:800;font-size:1.25rem;letter-spacing:.06em;text-decoration:none;color:var(--pearl);display:flex;align-items:center;gap:.55rem}
+.x-logo .orb{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--cyan),var(--violet) 45%,var(--red));box-shadow:0 0 16px var(--violet),0 0 30px rgba(244,63,94,.5)}
+.x-navlinks{display:flex;gap:2.4rem;list-style:none}
+.x-navlinks a{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);text-decoration:none;transition:color .3s;cursor:none}
+.x-navlinks a:hover{color:var(--pearl)}
+.x-cta{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.4rem;border-radius:100px;text-decoration:none;color:var(--pearl);background:linear-gradient(110deg,var(--violet-d),var(--azure));box-shadow:0 0 26px rgba(124,58,237,.45);transition:transform .3s,box-shadow .3s;cursor:none}
+.x-cta:hover{transform:translateY(-2px);box-shadow:0 0 38px rgba(168,85,247,.7)}
+
+/* generic scene wrapper */
+.scene{min-height:100vh;display:flex;align-items:center;position:relative;padding:7rem 3rem}
+.scene-mid{justify-content:center;text-align:center}
+.scene-l{justify-content:flex-start}
+.scene-r{justify-content:flex-end;text-align:right}
+.wrap{max-width:760px}
+.wrap-wide{max-width:1180px;width:100%}
+
+.eyebrow{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.4rem;opacity:.9}
+.eyebrow.v{color:var(--violet)} .eyebrow.m{color:var(--magenta)}
+
+.display-xl{font-family:'Syne';font-weight:800;font-size:clamp(3rem,11vw,10.5rem);line-height:.94;letter-spacing:-.02em}
+.display-l{font-family:'Syne';font-weight:800;font-size:clamp(2.4rem,6.5vw,5.4rem);line-height:1;letter-spacing:-.02em}
+.grad{background:linear-gradient(110deg,var(--violet) 0%,var(--azure-l) 55%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.grad-warm{background:linear-gradient(110deg,var(--violet) 0%,var(--magenta) 60%,var(--red) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lead{font-size:clamp(1.05rem,1.7vw,1.4rem);font-weight:200;color:#c8c3e0;max-width:540px;margin-top:1.6rem;line-height:1.65}
+.scene-mid .lead,.scene-r .lead{margin-left:auto;margin-right:auto}
+.scene-r .lead{margin-right:0}
+
+.btn-row{display:flex;gap:1rem;margin-top:2.6rem;flex-wrap:wrap}
+.scene-mid .btn-row{justify-content:center}.scene-r .btn-row{justify-content:flex-end}
+.btn{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.95rem 2.1rem;border-radius:100px;text-decoration:none;cursor:none;transition:transform .3s,box-shadow .3s,border-color .3s,color .3s;display:inline-block}
+.btn-fill{color:var(--pearl);background:linear-gradient(110deg,var(--violet-d),var(--azure));box-shadow:0 0 30px rgba(124,58,237,.45)}
+.btn-fill:hover{transform:translateY(-3px);box-shadow:0 0 44px rgba(168,85,247,.75)}
+.btn-ghost{color:var(--pearl);border:1px solid rgba(168,85,247,.35)}
+.btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
+
+/* hero scroll cue */
+.cue{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.55rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint)}
+.cue .line{width:1px;height:42px;background:linear-gradient(to bottom,var(--violet),transparent);animation:cuedrop 2s ease-in-out infinite}
+@keyframes cuedrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* process steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-top:3.4rem}
+.step{border:1px solid rgba(168,85,247,.16);border-radius:18px;padding:1.8rem 1.5rem;background:linear-gradient(160deg,rgba(168,85,247,.06),rgba(59,130,246,.02));backdrop-filter:blur(8px);position:relative;overflow:hidden}
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--violet),transparent);opacity:.6}
+.step-n{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.2em;color:var(--cyan);margin-bottom:.9rem}
+.step-t{font-family:'Syne';font-weight:700;font-size:1.2rem;margin-bottom:.5rem}
+.step-d{font-size:.86rem;color:var(--mute);line-height:1.55}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;width:100%}
+.stat{text-align:center;padding:1.5rem 1rem;border-left:1px solid rgba(168,85,247,.12)}
+.stat:first-child{border-left:none}
+.statnum{font-family:'Syne';font-weight:800;font-size:clamp(2.6rem,5vw,4.4rem);line-height:1;background:linear-gradient(160deg,#fff,var(--violet) 70%,var(--azure));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.statlbl{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-top:.7rem}
+
+/* holo service cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.4rem}
+.card{position:relative;border:1px solid rgba(168,85,247,.18);border-radius:20px;padding:2rem 1.8rem;background:linear-gradient(165deg,rgba(124,58,237,.1),rgba(59,130,246,.03) 60%,rgba(244,63,94,.05));backdrop-filter:blur(10px);overflow:hidden;transition:transform .4s,border-color .4s}
+.card:hover{transform:translateY(-6px);border-color:rgba(168,85,247,.5)}
+.card-glow{position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(50px);top:-40px;right:-40px;opacity:.5;background:var(--violet)}
+.card:nth-child(2) .card-glow{background:var(--azure)} .card:nth-child(3) .card-glow{background:var(--magenta)}
+.card-ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(59,130,246,.15));border:1px solid rgba(168,85,247,.3);position:relative;z-index:2}
+.card-ico svg{width:24px;height:24px;stroke:var(--cyan);fill:none;stroke-width:1.4}
+.card-t{font-family:'Syne';font-weight:700;font-size:1.3rem;margin-bottom:.6rem;position:relative;z-index:2}
+.card-d{font-size:.9rem;color:var(--mute);line-height:1.6;position:relative;z-index:2}
+.card-p{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--cyan);margin-top:1.2rem;position:relative;z-index:2}
+
+/* CTA */
+.cta-wrap{text-align:center;max-width:720px}
+
+/* footer */
+footer{position:relative;z-index:2;padding:3rem;border-top:1px solid rgba(168,85,247,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;background:rgba(5,1,15,.6);backdrop-filter:blur(10px)}
+.flogo{font-family:'Syne';font-weight:800;font-size:1.05rem;letter-spacing:.06em}
+.flinks{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
+.flinks a{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;color:var(--faint);text-decoration:none;transition:color .3s}
+.flinks a:hover{color:var(--violet)}
+.fcopy{font-family:'Space Mono',monospace;font-size:.64rem;color:var(--faint)}
+
+/* side trigger tabs */
+.tabs{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column}
+.tab{writing-mode:vertical-rl;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:1rem .55rem;color:var(--mute);background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.16);border-right:none;cursor:none;transition:all .3s}
+.tab+.tab{border-top:none}
+.tab:hover{background:linear-gradient(160deg,var(--violet-d),var(--azure));color:#fff;border-color:transparent}
+
+/* slide panel */
+.panel{position:fixed;top:0;right:-560px;bottom:0;width:560px;max-width:92vw;z-index:200;background:linear-gradient(165deg,var(--void2),var(--void));border-left:1px solid rgba(168,85,247,.2);transition:right .55s cubic-bezier(.77,0,.175,1);overflow-y:auto}
+.panel.open{right:0}
+.pov{position:fixed;inset:0;background:rgba(5,1,15,.7);backdrop-filter:blur(7px);z-index:150;opacity:0;pointer-events:none;transition:opacity .45s}
+.pov.on{opacity:1;pointer-events:all}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:1.8rem 2rem 1.2rem;border-bottom:1px solid rgba(168,85,247,.14);position:sticky;top:0;background:var(--void2);z-index:3}
+.ptabs{display:flex;border:1px solid rgba(168,85,247,.2);border-radius:9px;overflow:hidden}
+.ptab{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.08em;padding:.5rem 1rem;color:var(--mute);background:none;border:none;border-right:1px solid rgba(168,85,247,.16);cursor:none;transition:all .3s}
+.ptab:last-child{border-right:none}
+.ptab.on{background:linear-gradient(110deg,var(--violet-d),var(--azure));color:#fff}
+.pclose{width:34px;height:34px;border-radius:9px;border:1px solid rgba(168,85,247,.22);background:none;color:var(--mute);cursor:none;transition:all .3s;font-size:.9rem}
+.pclose:hover{border-color:var(--magenta);color:var(--magenta)}
+.pbody{padding:1.8rem 2rem}
+.psec{display:none}.psec.on{display:block}
+.fgrp{margin-bottom:2rem}
+.fgt{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);padding-bottom:.5rem;border-bottom:1px solid rgba(168,85,247,.14);margin-bottom:.9rem}
+.frow{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;padding:.5rem 0;font-size:.88rem;color:var(--mute);border-bottom:1px solid rgba(255,255,255,.04)}
+.frow:last-child{border-bottom:none}
+.fname{flex:1}.fnote{font-size:.7rem;color:var(--faint);margin-top:.15rem}
+.fprice{font-family:'Syne';font-weight:700;font-size:.95rem;color:var(--pearl);white-space:nowrap}
+.note-box{background:linear-gradient(160deg,rgba(168,85,247,.1),rgba(59,130,246,.04));border:1px solid rgba(168,85,247,.2);border-radius:12px;padding:1rem 1.1rem;margin-top:1.4rem;font-size:.8rem;color:var(--mute);line-height:1.7}
+.cblock{margin-bottom:1.5rem}
+.clbl{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:.32rem}
+.cval{font-family:'Syne';font-weight:600;font-size:1.1rem}
+.csub{font-size:.78rem;color:var(--faint)}
+.field{margin-bottom:.9rem}
+.field label{display:block;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:.3rem}
+.field input,.field select,.field textarea{width:100%;background:rgba(168,85,247,.05);border:1px solid rgba(168,85,247,.18);border-radius:9px;color:var(--pearl);padding:.65rem .85rem;font-family:'Sora';font-size:.88rem;outline:none;transition:border-color .3s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--violet)}
+.field textarea{height:78px;resize:none}.field select{appearance:none}
+.psend{width:100%;font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.85rem;border:none;border-radius:100px;color:#fff;background:linear-gradient(110deg,var(--violet-d),var(--azure));cursor:none;transition:box-shadow .3s,transform .3s;margin-top:.4rem}
+.psend:hover{box-shadow:0 0 32px rgba(168,85,247,.6);transform:translateY(-2px)}
+.ccard{border:1px solid rgba(168,85,247,.14);border-radius:14px;padding:1.2rem;margin-bottom:1.1rem;background:linear-gradient(160deg,rgba(168,85,247,.06),transparent)}
+.cct{font-family:'Syne';font-weight:700;font-size:1.05rem;margin-bottom:.2rem}
+.ccm{font-family:'Space Mono',monospace;font-size:.66rem;color:var(--faint);margin-bottom:.5rem}
+.ccd{font-size:.85rem;color:var(--mute);line-height:1.55}
+.cctags{display:flex;gap:.4rem;margin-top:.7rem;flex-wrap:wrap}
+.cctag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(127,231,255,.25);border-radius:100px;padding:2px 9px}
+
+/* reveal */
+.rv{opacity:0}
+
+@media(max-width:900px){
+  .x-navlinks{display:none}
+  .x-nav,.x-nav.s{padding:1rem 1.3rem}
+  .scene{padding:6rem 1.4rem}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr);gap:1.5rem 1rem}
+  .stat{border-left:none}
+  .cards{grid-template-columns:1fr}
+  body{cursor:auto}#cd,#cr{display:none}
+}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--void)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--violet),var(--azure))}
+</style>
+</head>
+<body>
+
+<!-- loader -->
+<div id="loader"><div class="ldr-ring"></div><div class="ldr-txt">Entering the APEX field</div></div>
+
+<canvas id="universe"></canvas>
+<div id="vignette"></div>
+<div id="grain"></div>
+<div id="cd"></div><div id="cr"></div>
+
+<!-- nav -->
+<nav class="x-nav" id="nav">
+  <a href="#home" class="x-logo"><span class="orb"></span>APEX</a>
+  <ul class="x-navlinks">
+    <li><a href="#intel">Intelligence</a></li>
+    <li><a href="#human">The Human Smile</a></li>
+    <li><a href="#implant">The Implant</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <a href="#" class="x-cta" onclick="openP('contact');return false">Book Consultation</a>
+</nav>
+
+<!-- side tabs -->
+<div class="tabs">
+  <div class="tab" onclick="openP('fees')">Fees</div>
+  <div class="tab" onclick="openP('contact')">Contact</div>
+  <div class="tab" onclick="openP('cases')">Cases</div>
+</div>
+<div class="pov" id="pov" onclick="closeP()"></div>
+
+<!-- panel -->
+<div class="panel" id="panel">
+  <div class="phead">
+    <div class="ptabs">
+      <button class="ptab on" data-t="fees" onclick="swTab('fees')">Fees</button>
+      <button class="ptab" data-t="contact" onclick="swTab('contact')">Contact</button>
+      <button class="ptab" data-t="cases" onclick="swTab('cases')">Cases</button>
+    </div>
+    <button class="pclose" onclick="closeP()">✕</button>
+  </div>
+  <div class="pbody">
+    <div class="psec on" id="t-fees">
+      <div class="fgrp"><div class="fgt">Single Tooth</div>
+        <div class="frow"><div><div class="fname">Titanium Implant + Crown</div><div class="fnote">Grade-4 fixture · zirconia crown</div></div><div class="fprice">£2,500–£3,200</div></div>
+        <div class="frow"><div><div class="fname">Premium Roxolid® Implant + Crown</div><div class="fnote">Ti-Zr alloy · monolithic zirconia</div></div><div class="fprice">£3,800–£4,600</div></div>
+        <div class="frow"><div><div class="fname">Bone Graft / Sinus Lift</div><div class="fnote">If required</div></div><div class="fprice">£500–£1,800</div></div>
+      </div>
+      <div class="fgrp"><div class="fgt">Full Arch</div>
+        <div class="frow"><div><div class="fname">All-on-4® per arch</div><div class="fnote">Same-day fixed teeth on 4 implants</div></div><div class="fprice">£14k–£18k</div></div>
+        <div class="frow"><div><div class="fname">All-on-6® per arch</div><div class="fnote">6 implants · enhanced stability</div></div><div class="fprice">£17k–£22k</div></div>
+      </div>
+      <div class="fgrp"><div class="fgt">Diagnostics</div>
+        <div class="frow"><div class="fname">Consultation</div><div class="fprice">£100</div></div>
+        <div class="frow"><div><div class="fname">3D CBCT Scan + AI Plan</div><div class="fnote">Redeemable against treatment</div></div><div class="fprice">£250</div></div>
+      </div>
+      <div class="note-box"><strong style="color:var(--cyan)">0% finance</strong> over 12 months, or low-rate plans to 5 years. Subject to status.</div>
+    </div>
+    <div class="psec" id="t-contact">
+      <div class="cblock"><div class="clbl">Location</div><div class="cval">12 Harley Street</div><div class="csub">London · W1G 9PQ</div></div>
+      <div class="cblock"><div class="clbl">Direct Line</div><div class="cval">+44 (0)20 7946 0321</div><div class="csub">Mon–Sat · 8am–7pm</div></div>
+      <div class="cblock"><div class="clbl">Signal</div><div class="cval" style="font-size:.96rem">hello@apex.dental</div></div>
+      <div style="margin-top:1.6rem">
+        <div style="font-family:'Syne';font-weight:700;font-size:1.15rem;margin-bottom:1rem">Request a consultation</div>
+        <div class="field"><label>Name</label><input placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+        <div class="field"><label>Phone</label><input type="tel" placeholder="+44…"></div>
+        <div class="field"><label>Interest</label><select><option>Single implant</option><option>Multiple / bridge</option><option>All-on-4 / All-on-6</option><option>Not sure yet</option></select></div>
+        <div class="field"><label>Message</label><textarea placeholder="Tell us what you're hoping to achieve…"></textarea></div>
+        <button class="psend">Transmit request</button>
+      </div>
+    </div>
+    <div class="psec" id="t-cases">
+      <div style="font-size:.9rem;color:var(--mute);margin-bottom:1.3rem;line-height:1.6">Real outcomes, shared with patient consent.</div>
+      <div class="ccard"><div class="cct">Single Implant — Upper Molar</div><div class="ccm">AGE 42 · 4 MONTHS · 2024</div><div class="ccd">Fractured molar replaced with a single tapered implant and zirconia crown. No graft required.</div><div class="cctags"><span class="cctag">BLT</span><span class="cctag">Zirconia</span></div></div>
+      <div class="ccard"><div class="cct">All-on-4® — Lower Arch</div><div class="ccm">AGE 61 · SAME-DAY · 2024</div><div class="ccd">Edentulous mandible restored with four implants and a fixed bridge loaded the same day.</div><div class="cctags"><span class="cctag">All-on-4</span><span class="cctag">Immediate load</span></div></div>
+      <div class="ccard"><div class="cct">Implant Bridge — Incisors</div><div class="ccm">AGE 35 · 6 MONTHS · 2023</div><div class="ccd">Two implants supporting a three-unit e.max bridge after grafting a periapical defect.</div><div class="cctags"><span class="cctag">Bridge</span><span class="cctag">e.max</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- HERO -->
+  <section class="scene scene-mid" id="home">
+    <div class="wrap">
+      <div class="eyebrow" id="heroEy">// Implant studio · transmitting from 2099</div>
+      <h1 class="display-xl" id="heroT">Dentistry<br>from the <span class="grad">future</span></h1>
+      <p class="lead" id="heroSub">A titanium root that fuses with living bone. A crown grown from data. We rebuild your smile at the intersection of biology and machine.</p>
+      <div class="btn-row" id="heroBtns">
+        <a href="#" class="btn btn-fill" onclick="openP('contact');return false">Begin your journey</a>
+        <a href="#intel" class="btn btn-ghost">Enter the field</a>
+      </div>
+    </div>
+    <div class="cue"><div class="line"></div>Scroll</div>
+  </section>
+
+  <!-- INTELLIGENCE / NEURAL -->
+  <section class="scene scene-l" id="intel">
+    <div class="wrap rv">
+      <div class="eyebrow v">// 01 — Intelligence</div>
+      <h2 class="display-l">A mind<br>behind every <span class="grad">millimetre</span></h2>
+      <p class="lead">Every case begins as data. CBCT volumes, intraoral scans and facial mapping converge into a neural model of your anatomy — so the implant is planned to the micron before a single instrument is touched.</p>
+    </div>
+  </section>
+
+  <!-- HUMAN ↔ TOOTH MORPH -->
+  <section class="scene scene-mid" id="human">
+    <div class="wrap rv">
+      <div class="eyebrow">// 02 — The human smile</div>
+      <h2 class="display-l">You, rendered<br>down to the <span class="grad-warm">root</span></h2>
+      <p class="lead">Watch a human profile resolve into a single tooth. This is how we see you — not a gap to fill, but a person whose biology, bite and face all shape the result.</p>
+    </div>
+  </section>
+
+  <!-- IMPLANT -->
+  <section class="scene scene-r" id="implant">
+    <div class="wrap rv">
+      <div class="eyebrow m">// 03 — The implant</div>
+      <h2 class="display-l">Engineered to<br>become <span class="grad-warm">part of you</span></h2>
+      <p class="lead">A tapered titanium fixture, threaded like a screw and textured at the microscopic level. Bone cells colonise its surface until metal and body are structurally one — osseointegration, the quiet miracle that makes it permanent.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="scene scene-mid" id="process">
+    <div class="wrap-wide rv">
+      <div class="eyebrow v" style="text-align:center">// 04 — The journey</div>
+      <h2 class="display-l" style="text-align:center">Four steps<br>through the <span class="grad">field</span></h2>
+      <div class="steps">
+        <div class="step"><div class="step-n">PHASE 01</div><div class="step-t">Scan</div><div class="step-d">A 3D CBCT scan and intraoral capture build a complete digital twin of your mouth.</div></div>
+        <div class="step"><div class="step-n">PHASE 02</div><div class="step-t">Plan</div><div class="step-d">Implant position, angle and depth are simulated and a surgical guide is printed.</div></div>
+        <div class="step"><div class="step-n">PHASE 03</div><div class="step-t">Place</div><div class="step-d">The fixture is placed through the guide — precise, minimally invasive, often same-day.</div></div>
+        <div class="step"><div class="step-n">PHASE 04</div><div class="step-t">Restore</div><div class="step-d">Once integrated, a milled ceramic crown completes a tooth no one can tell apart.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="scene scene-mid">
+    <div class="wrap-wide rv">
+      <div class="stats">
+        <div class="stat"><div class="statnum"><span class="cu" data-t="4200">0</span>+</div><div class="statlbl">Implants placed</div></div>
+        <div class="stat"><div class="statnum"><span class="cu" data-t="98">0</span>%</div><div class="statlbl">10-year success</div></div>
+        <div class="stat"><div class="statnum"><span class="cu" data-t="22">0</span></div><div class="statlbl">Years experience</div></div>
+        <div class="stat"><div class="statnum">1</div><div class="statlbl">Day · same-day teeth</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="scene scene-mid">
+    <div class="wrap-wide rv">
+      <div class="eyebrow m" style="text-align:center">// Capabilities</div>
+      <h2 class="display-l" style="text-align:center">What we <span class="grad-warm">rebuild</span></h2>
+      <div class="cards">
+        <div class="card"><div class="card-glow"></div>
+          <div class="card-ico"><svg viewBox="0 0 24 24"><path d="M12 2c4 0 6 3 6 7 0 5-2 13-3 13s-1-4-3-4-2 4-3 4-3-8-3-13c0-4 2-7 6-7z"/></svg></div>
+          <div class="card-t">Single Implants</div>
+          <div class="card-d">One missing tooth, replaced at the root. A standalone titanium implant and ceramic crown that never touches the teeth beside it.</div>
+          <div class="card-p">from £2,500</div>
+        </div>
+        <div class="card"><div class="card-glow"></div>
+          <div class="card-ico"><svg viewBox="0 0 24 24"><path d="M4 9h16M4 9c0-3 2-5 4-5s2 2 4 2 2-2 4-2 4 2 4 5M6 9c0 6-1 11-2 11M18 9c0 6 1 11 2 11M10 9v9M14 9v9"/></svg></div>
+          <div class="card-t">Implant Bridges</div>
+          <div class="card-d">Several teeth restored on a few implants — a fixed bridge that brings back full chewing without a removable plate.</div>
+          <div class="card-p">from £5,800</div>
+        </div>
+        <div class="card"><div class="card-glow"></div>
+          <div class="card-ico"><svg viewBox="0 0 24 24"><path d="M3 8c2-2 5-3 9-3s7 1 9 3M5 8c0 7 2 12 4 12M19 8c0 7-2 12-4 12M9 8v11M15 8v11M12 5v14"/></svg></div>
+          <div class="card-t">Full-Arch · All-on-4/6</div>
+          <div class="card-d">A whole jaw of fixed teeth on four to six implants, often placed and loaded in a single day. A complete reset.</div>
+          <div class="card-p">from £14,000</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="scene scene-mid" id="cta">
+    <div class="cta-wrap rv">
+      <div class="eyebrow">// Transmission ends</div>
+      <h2 class="display-l">Your future smile<br>is <span class="grad">waiting</span></h2>
+      <p class="lead">Book a complimentary consultation — a full assessment, your CBCT interpreted, and a personalised plan. No pressure, just a clear path forward.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a href="#" class="btn btn-fill" onclick="openP('contact');return false">Book free consultation</a>
+        <a href="#" class="btn btn-ghost" onclick="openP('fees');return false">View fees</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="flogo">APEX</div>
+    <ul class="flinks"><li><a href="#">Privacy</a></li><li><a href="#">GDC Registered</a></li><li><a href="#">CQC Regulated</a></li><li><a href="#">Cookies</a></li></ul>
+    <div class="fcopy">© 2025 APEX Implant Studio · 12 Harley Street W1G 9PQ</div>
+  </footer>
+</div>
+
+<!-- ============ LIBRARIES ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+'use strict';
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOBILE  = window.innerWidth < 768;
+
+/* ───────── CURSOR ───────── */
+(function(){
+  const d=document.getElementById('cd'), r=document.getElementById('cr');
+  if(!d) return;
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px';});
+  document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+    el.addEventListener('mouseenter',()=>r.classList.add('g'));
+    el.addEventListener('mouseleave',()=>r.classList.remove('g'));
+  });
+  (function loop(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(loop);})();
+})();
+
+/* ───────── THREE.JS UNIVERSE ───────── */
+let renderer, scene, camera, clock;
+let starField, dust, nebulae=[];
+let neuralGroup, morphPoints, morphA, morphB, morphCount, morphPos, morphLastT=-1;
+let implantGroup, implantRings=[];
+let progress = 0;          // 0..1 global scroll
+const tmpV = new THREE.Vector3(), camTarget = new THREE.Vector3(), lookTarget = new THREE.Vector3();
+const lerp = (a,b,t)=>a+(b-a)*t;
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const remap = (v,a,b)=>clamp((v-a)/(b-a),0,1);
+
+/* soft circular sprite for glowing particles */
+function dotTexture(){
+  const c=document.createElement('canvas');c.width=c.height=64;
+  const x=c.getContext('2d');
+  const g=x.createRadialGradient(32,32,0,32,32,32);
+  g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.25,'rgba(255,255,255,.9)');
+  g.addColorStop(.55,'rgba(255,255,255,.25)');g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=g;x.fillRect(0,0,64,64);
+  const t=new THREE.CanvasTexture(c);return t;
+}
+function glowTexture(){
+  const c=document.createElement('canvas');c.width=c.height=256;
+  const x=c.getContext('2d');
+  const g=x.createRadialGradient(128,128,0,128,128,128);
+  g.addColorStop(0,'rgba(255,255,255,.9)');g.addColorStop(.4,'rgba(255,255,255,.25)');g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=g;x.fillRect(0,0,256,256);
+  return new THREE.CanvasTexture(c);
+}
+
+const PAL = [ [0.66,0.33,0.97], [0.23,0.51,0.96], [0.95,0.25,0.35], [0.5,0.9,1.0], [0.49,0.27,0.93] ];
+function palColor(){ return PAL[(Math.random()*PAL.length)|0]; }
+
+/* sample white pixels of a drawn shape → array of {x,y} in [-1,1] */
+function sampleShape(drawFn, want){
+  const S=420, c=document.createElement('canvas');c.width=c.height=S;
+  const x=c.getContext('2d');
+  x.fillStyle='#000';x.fillRect(0,0,S,S);
+  x.fillStyle='#fff';
+  drawFn(x,S);
+  const data=x.getImageData(0,0,S,S).data;
+  const pts=[];
+  for(let py=0;py<S;py+=3){
+    for(let px=0;px<S;px+=3){
+      if(data[(py*S+px)*4]>120){
+        pts.push([ (px/S-0.5)*2, -(py/S-0.5)*2 ]);
+      }
+    }
+  }
+  // resize to exactly `want`
+  const out=new Float32Array(want*3);
+  for(let i=0;i<want;i++){
+    const p=pts[(Math.random()*pts.length)|0] || [0,0];
+    out[i*3]   = p[0];
+    out[i*3+1] = p[1];
+    out[i*3+2] = (Math.random()-0.5)*0.12;
+  }
+  return out;
+}
+
+/* human side profile (left-facing) */
+function drawProfile(x,S){
+  x.beginPath();
+  const u=S/420;
+  x.moveTo(150*u,40*u);                                  // crown
+  x.bezierCurveTo(250*u,30*u,320*u,90*u,320*u,170*u);    // back/top of skull
+  x.bezierCurveTo(320*u,210*u,300*u,235*u,295*u,255*u);  // back of head down
+  x.bezierCurveTo(292*u,275*u,300*u,290*u,300*u,305*u);  // nape
+  x.lineTo(300*u,360*u);                                 // neck back
+  x.lineTo(225*u,360*u);                                 // neck base
+  x.bezierCurveTo(225*u,330*u,215*u,315*u,200*u,300*u);  // jaw underside
+  x.bezierCurveTo(180*u,288*u,168*u,285*u,150*u,278*u);  // chin
+  x.bezierCurveTo(150*u,262*u,158*u,255*u,150*u,245*u);  // lower lip
+  x.bezierCurveTo(140*u,240*u,140*u,235*u,150*u,230*u);  // mouth
+  x.bezierCurveTo(158*u,225*u,150*u,215*u,148*u,205*u);  // upper lip
+  x.bezierCurveTo(118*u,200*u,112*u,185*u,140*u,170*u);  // nose tip / nostril
+  x.bezierCurveTo(150*u,150*u,158*u,135*u,150*u,118*u);  // nose bridge
+  x.bezierCurveTo(150*u,95*u,150*u,60*u,150*u,40*u);     // forehead back to crown
+  x.closePath();
+  x.fill();
+}
+/* molar tooth (crown + two roots) */
+function drawTooth(x,S){
+  const u=S/420;
+  x.beginPath();
+  x.moveTo(150*u,120*u);
+  x.bezierCurveTo(150*u,80*u,180*u,70*u,210*u,80*u);     // left cusp
+  x.bezierCurveTo(230*u,72*u,250*u,72*u,265*u,82*u);
+  x.bezierCurveTo(295*u,72*u,320*u,90*u,315*u,128*u);    // right shoulder
+  x.bezierCurveTo(312*u,160*u,300*u,175*u,300*u,200*u);  // right side
+  x.bezierCurveTo(300*u,250*u,312*u,300*u,295*u,345*u);  // right root
+  x.bezierCurveTo(288*u,360*u,275*u,360*u,270*u,340*u);
+  x.bezierCurveTo(262*u,295*u,255*u,250*u,250*u,225*u);  // root inner
+  x.bezierCurveTo(240*u,235*u,225*u,235*u,215*u,225*u);  // furcation
+  x.bezierCurveTo(210*u,250*u,200*u,300*u,192*u,342*u);  // left root
+  x.bezierCurveTo(187*u,360*u,173*u,360*u,168*u,342*u);
+  x.bezierCurveTo(152*u,298*u,162*u,250*u,160*u,205*u);  // left side up
+  x.bezierCurveTo(158*u,175*u,150*u,160*u,150*u,120*u);
+  x.closePath();
+  x.fill();
+}
+
+function buildUniverse(){
+  const canvas=document.getElementById('universe');
+  renderer=new THREE.WebGLRenderer({canvas,antialias:!MOBILE,alpha:false,powerPreference:'high-performance'});
+  renderer.setSize(innerWidth,innerHeight);
+  renderer.setPixelRatio(Math.min(MOBILE?1.4:1.7, devicePixelRatio));
+  scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0x05010f, 0.0042);
+  camera=new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 2000);
+  camera.position.set(0,0,72);
+  clock=new THREE.Clock();
+
+  const dot=dotTexture(), glow=glowTexture();
+
+  /* ── starfield ── */
+  const SN = MOBILE?2600:4200;
+  let g=new THREE.BufferGeometry();
+  let pos=new Float32Array(SN*3), col=new Float32Array(SN*3);
+  for(let i=0;i<SN;i++){
+    const r=120+Math.random()*340, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+    pos[i*3]=r*Math.sin(ph)*Math.cos(th);
+    pos[i*3+1]=r*Math.sin(ph)*Math.sin(th)*0.7;
+    pos[i*3+2]=r*Math.cos(ph) - 120;
+    const c=palColor(); col[i*3]=c[0];col[i*3+1]=c[1];col[i*3+2]=c[2];
+  }
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  starField=new THREE.Points(g,new THREE.PointsMaterial({size:1.6,map:dot,vertexColors:true,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true}));
+  scene.add(starField);
+
+  /* ── ambient dust ── */
+  const DN=MOBILE?900:1500;
+  g=new THREE.BufferGeometry();
+  pos=new Float32Array(DN*3); col=new Float32Array(DN*3);
+  for(let i=0;i<DN;i++){
+    pos[i*3]=(Math.random()-0.5)*200;
+    pos[i*3+1]=(Math.random()-0.5)*140;
+    pos[i*3+2]=(Math.random()-0.5)*200;
+    const c=palColor(); col[i*3]=c[0];col[i*3+1]=c[1];col[i*3+2]=c[2];
+  }
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  g.setAttribute('color',new THREE.BufferAttribute(col,3));
+  dust=new THREE.Points(g,new THREE.PointsMaterial({size:1.0,map:dot,vertexColors:true,transparent:true,opacity:.5,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true}));
+  scene.add(dust);
+
+  /* ── nebula glow planes ── */
+  const nebDefs=[[0x7c3aed,-40,18,-90,150],[0x3b82f6,55,-30,-120,180],[0xe11d48,-10,-40,-70,120]];
+  nebDefs.forEach(d=>{
+    const m=new THREE.Mesh(new THREE.PlaneGeometry(d[4],d[4]),
+      new THREE.MeshBasicMaterial({map:glow,color:d[0],transparent:true,opacity:.4,blending:THREE.AdditiveBlending,depthWrite:false}));
+    m.position.set(d[1],d[2],d[3]);
+    scene.add(m); nebulae.push(m);
+  });
+
+  /* ── neural group (intelligence) ── */
+  neuralGroup=new THREE.Group();
+  const ico=new THREE.IcosahedronGeometry(13, MOBILE?1:2);
+  const vp=ico.attributes.position;
+  const verts=[], _seen={};        // r128 icosa is non-indexed → dedupe coincident verts
+  for(let i=0;i<vp.count;i++){
+    const vx=vp.getX(i),vy=vp.getY(i),vz=vp.getZ(i);
+    const key=vx.toFixed(2)+'_'+vy.toFixed(2)+'_'+vz.toFixed(2);
+    if(!_seen[key]){ _seen[key]=1; verts.push(new THREE.Vector3(vx,vy,vz)); }
+  }
+  // nodes
+  const ng=new THREE.BufferGeometry();
+  const npos=new Float32Array(verts.length*3), ncol=new Float32Array(verts.length*3);
+  verts.forEach((v,i)=>{npos[i*3]=v.x;npos[i*3+1]=v.y;npos[i*3+2]=v.z;const c=palColor();ncol[i*3]=c[0];ncol[i*3+1]=c[1];ncol[i*3+2]=c[2];});
+  ng.setAttribute('position',new THREE.BufferAttribute(npos,3));
+  ng.setAttribute('color',new THREE.BufferAttribute(ncol,3));
+  const nodeMat=new THREE.PointsMaterial({size:2.6,map:dot,vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+  neuralGroup.add(new THREE.Points(ng,nodeMat));
+  // connections — threshold = nearest-neighbour distance * 1.45 (works at any detail level)
+  let _minD=Infinity;
+  for(let i=0;i<verts.length;i++)for(let j=i+1;j<verts.length;j++){
+    const d=verts[i].distanceTo(verts[j]); if(d>0.01&&d<_minD)_minD=d;
+  }
+  const TH=_minD*1.45;
+  const segs=[];
+  for(let i=0;i<verts.length;i++)for(let j=i+1;j<verts.length;j++){
+    if(verts[i].distanceTo(verts[j])<TH){segs.push(verts[i].x,verts[i].y,verts[i].z,verts[j].x,verts[j].y,verts[j].z);}
+  }
+  const lg=new THREE.BufferGeometry();
+  lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(segs),3));
+  const lineMat=new THREE.LineBasicMaterial({color:0x9d6bff,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false});
+  neuralGroup.add(new THREE.LineSegments(lg,lineMat));
+  // inner core
+  const core=new THREE.Mesh(new THREE.SphereGeometry(2.4,24,24),
+    new THREE.MeshBasicMaterial({color:0x7fe7ff,transparent:true,opacity:0,blending:THREE.AdditiveBlending}));
+  neuralGroup.add(core);
+  neuralGroup.userData={nodeMat,lineMat,core};
+  neuralGroup.visible=false;
+  scene.add(neuralGroup);
+
+  /* ── morph cloud (human ↔ tooth) ── */
+  morphCount = MOBILE?2600:5200;
+  morphA = sampleShape(drawProfile, morphCount);  // human
+  morphB = sampleShape(drawTooth,   morphCount);  // tooth
+  const SCALE=22;
+  for(let i=0;i<morphCount*3;i++){ morphA[i]*=SCALE; morphB[i]*=SCALE; }
+  morphPos = new Float32Array(morphCount*3);
+  morphPos.set(morphA);
+  const mcol=new Float32Array(morphCount*3);
+  for(let i=0;i<morphCount;i++){
+    const t=i/morphCount; let c;
+    if(t<0.5){ c=[lerp(0.66,0.23,t*2), lerp(0.33,0.51,t*2), lerp(0.97,0.96,t*2)]; }
+    else     { c=[lerp(0.23,0.95,(t-0.5)*2), lerp(0.51,0.25,(t-0.5)*2), lerp(0.96,0.40,(t-0.5)*2)]; }
+    mcol[i*3]=c[0];mcol[i*3+1]=c[1];mcol[i*3+2]=c[2];
+  }
+  const mg=new THREE.BufferGeometry();
+  mg.setAttribute('position',new THREE.BufferAttribute(morphPos,3));
+  mg.setAttribute('color',new THREE.BufferAttribute(mcol,3));
+  const morphMat=new THREE.PointsMaterial({size:1.9,map:dot,vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+  morphPoints=new THREE.Points(mg,morphMat);
+  morphPoints.visible=false;
+  scene.add(morphPoints);
+
+  /* ── implant group ── */
+  implantGroup=new THREE.Group();
+  // lathe profile of a tapered, threaded fixture
+  const prof=[];
+  const H=30, rTop=4.6, rBot=1.4, threads=11;
+  prof.push(new THREE.Vector2(0.01,-H/2));
+  for(let i=0;i<=threads;i++){
+    const f=i/threads, y=-H/2 + f*(H*0.84);
+    const base=lerp(rBot,rTop,f);
+    prof.push(new THREE.Vector2(base*0.78, y+0.3));
+    prof.push(new THREE.Vector2(base, y+ (H*0.84/threads)*0.5));
+  }
+  prof.push(new THREE.Vector2(rTop, H*0.34));
+  prof.push(new THREE.Vector2(rTop*0.95, H*0.42));  // collar
+  prof.push(new THREE.Vector2(rTop*0.62, H*0.46));  // top platform
+  prof.push(new THREE.Vector2(0.01, H*0.46));
+  const lathe=new THREE.LatheGeometry(prof, 48);
+  const metal=new THREE.MeshPhongMaterial({color:0x6a78c8,emissive:0x3a1f6a,emissiveIntensity:.6,specular:0xd0e0ff,shininess:90,transparent:true,opacity:0});
+  const fixture=new THREE.Mesh(lathe,metal);
+  fixture.rotation.x=Math.PI;       // apex down
+  implantGroup.add(fixture);
+  implantGroup.userData={metal};
+  // orbital rings
+  [[18,0xa855f7,1.1,0.4],[22,0x3b82f6,0.3,1.0],[15.5,0xf43f5e,0.8,0.8]].forEach(d=>{
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(d[0],0.12,12,120),
+      new THREE.MeshBasicMaterial({color:d[1],transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false}));
+    ring.rotation.x=d[2]; ring.rotation.y=d[3];
+    implantGroup.add(ring); implantRings.push(ring);
+  });
+  // glow particles around implant
+  const IN=MOBILE?500:900;
+  const ig=new THREE.BufferGeometry();
+  const ipos=new Float32Array(IN*3), icol=new Float32Array(IN*3);
+  for(let i=0;i<IN;i++){
+    const r=8+Math.random()*16, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+    ipos[i*3]=r*Math.sin(ph)*Math.cos(th);
+    ipos[i*3+1]=r*Math.cos(ph);
+    ipos[i*3+2]=r*Math.sin(ph)*Math.sin(th);
+    const c=palColor(); icol[i*3]=c[0];icol[i*3+1]=c[1];icol[i*3+2]=c[2];
+  }
+  ig.setAttribute('position',new THREE.BufferAttribute(ipos,3));
+  ig.setAttribute('color',new THREE.BufferAttribute(icol,3));
+  const halo=new THREE.Points(ig,new THREE.PointsMaterial({size:1.4,map:dot,vertexColors:true,transparent:true,opacity:0,blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true}));
+  implantGroup.add(halo); implantGroup.userData.halo=halo;
+  // lights for the metal
+  const l1=new THREE.PointLight(0xa855f7,1.4,200); l1.position.set(30,20,30);
+  const l2=new THREE.PointLight(0x3b82f6,1.2,200); l2.position.set(-30,-10,20);
+  const l3=new THREE.PointLight(0xf43f5e,1.0,200); l3.position.set(0,-20,-30);
+  implantGroup.add(l1,l2,l3);
+  scene.add(new THREE.AmbientLight(0x2a2050,0.6));
+  implantGroup.visible=false;
+  scene.add(implantGroup);
+
+  addEventListener('resize',onResize);
+  animate();
+}
+
+function onResize(){
+  if(!renderer) return;
+  camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+}
+
+/* fade a group/material toward target opacity */
+function fade(mat, target, dt){ mat.opacity = lerp(mat.opacity, target, dt); }
+
+/* camera keyframes per scroll zone */
+const CAMS=[
+  {p:[0,0,72],  l:[0,0,0]},     // hero
+  {p:[20,7,50], l:[0,1,0]},     // intelligence
+  {p:[0,2,46],  l:[0,0,0]},     // human morph
+  {p:[-16,6,44],l:[0,1,0]},     // implant
+  {p:[12,-4,54],l:[0,-2,0]},    // process
+  {p:[0,0,60],  l:[0,0,0]},     // stats/services
+  {p:[0,2,48],  l:[0,0,0]}      // cta
+];
+
+function applyMorph(t){
+  if(Math.abs(t-morphLastT)<0.002 && t!==0 && t!==1) return;
+  morphLastT=t;
+  const time=clock?clock.elapsedTime:0;
+  for(let i=0;i<morphCount;i++){
+    const j=i*3;
+    let x=lerp(morphA[j],   morphB[j],   t);
+    let y=lerp(morphA[j+1], morphB[j+1], t);
+    let z=lerp(morphA[j+2], morphB[j+2], t);
+    // gentle organic drift
+    z += Math.sin(time*0.8 + i*0.35)*0.6;
+    x += Math.sin(time*0.5 + i*0.2)*0.18;
+    morphPos[j]=x;morphPos[j+1]=y;morphPos[j+2]=z;
+  }
+  morphPoints.geometry.attributes.position.needsUpdate=true;
+}
+
+function animate(){
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+  const time = clock.elapsedTime;
+  const damp = REDUCED?1:Math.min(1, dt*3.2);
+
+  /* camera along keyframes */
+  const seg = progress*(CAMS.length-1);
+  let i=Math.min(CAMS.length-2, Math.floor(seg)), f=seg-i;
+  const a=CAMS[i], b=CAMS[i+1];
+  camTarget.set(lerp(a.p[0],b.p[0],f), lerp(a.p[1],b.p[1],f), lerp(a.p[2],b.p[2],f));
+  lookTarget.set(lerp(a.l[0],b.l[0],f), lerp(a.l[1],b.l[1],f), lerp(a.l[2],b.l[2],f));
+  if(!REDUCED){ camTarget.x+=Math.sin(time*0.3)*2.4; camTarget.y+=Math.cos(time*0.24)*1.7; }
+  camera.position.lerp(camTarget, REDUCED?1:Math.min(1,dt*1.8));
+  camera.lookAt(lookTarget);
+
+  /* zone-based visibility (targets) */
+  const inNeural  = remap(progress,0.10,0.18)*(1-remap(progress,0.27,0.34));
+  const inMorph   = remap(progress,0.27,0.35)*(1-remap(progress,0.46,0.54));
+  const inImplant = remap(progress,0.46,0.54)*(1-remap(progress,0.66,0.74));
+
+  // neural
+  if(neuralGroup){
+    const ud=neuralGroup.userData;
+    const tgt=inNeural;
+    neuralGroup.visible = tgt>0.02 || ud.nodeMat.opacity>0.02;
+    fade(ud.nodeMat, tgt, damp);
+    const pulse=0.4+Math.abs(Math.sin(time*1.6))*0.5;
+    fade(ud.lineMat, tgt*pulse*0.7, damp);
+    fade(ud.core.material, tgt*pulse, damp);
+    ud.nodeMat.size = 2.4 + Math.sin(time*2.0)*0.7;
+    ud.core.scale.setScalar(1+Math.sin(time*1.6)*0.18);
+    if(!REDUCED){ neuralGroup.rotation.y+=dt*0.18; neuralGroup.rotation.x+=dt*0.05; }
+  }
+  // morph
+  if(morphPoints){
+    const tgt=inMorph;
+    morphPoints.visible = tgt>0.02 || morphPoints.material.opacity>0.02;
+    fade(morphPoints.material, tgt, damp);
+    if(morphPoints.material.opacity>0.02){
+      const mt = remap(progress,0.31,0.49);     // human(0) → tooth(1)
+      applyMorph(mt);
+      if(!REDUCED) morphPoints.rotation.y = Math.sin(time*0.2)*0.25;
+    }
+  }
+  // implant
+  if(implantGroup){
+    const ud=implantGroup.userData, tgt=inImplant;
+    implantGroup.visible = tgt>0.02 || ud.metal.opacity>0.02;
+    fade(ud.metal, tgt, damp);
+    fade(ud.halo.material, tgt*0.9, damp);
+    implantRings.forEach(r=>fade(r.material, tgt*0.85, damp));
+    if(!REDUCED){
+      implantGroup.rotation.y+=dt*0.35;
+      implantRings[0].rotation.z+=dt*0.4; implantRings[1].rotation.x+=dt*0.3; implantRings[2].rotation.y+=dt*0.5;
+      ud.halo.rotation.y-=dt*0.2;
+    }
+  }
+
+  /* ambient motion */
+  if(!REDUCED){
+    starField.rotation.y += dt*0.012;
+    dust.rotation.y -= dt*0.02; dust.rotation.x += dt*0.006;
+    nebulae[0].rotation.z += dt*0.03; nebulae[1].rotation.z -= dt*0.02; nebulae[2].rotation.z += dt*0.025;
+  }
+  // nebula breathing
+  nebulae.forEach((n,k)=>{ n.material.opacity = 0.28 + Math.sin(time*0.4 + k*2)*0.12; });
+
+  renderer.render(scene,camera);
+}
+
+/* scroll progress */
+function updateProgress(){
+  const max=document.body.scrollHeight - innerHeight;
+  progress = max>0 ? clamp(window.scrollY/max,0,1) : 0;
+}
+addEventListener('scroll',updateProgress,{passive:true});
+
+/* ───────── GSAP CONTENT ───────── */
+function revealAll(){ document.querySelectorAll('.rv').forEach(function(el){el.style.opacity=1;}); }
+function initGSAP(){
+  if(!window.gsap){ revealAll(); return; }
+  const hasST = !!window.ScrollTrigger;
+  if(hasST){ gsap.registerPlugin(ScrollTrigger); }
+
+  // hero load sequence (no ScrollTrigger needed)
+  const tl=gsap.timeline({delay:.2});
+  tl.from('#heroEy',{opacity:0,y:20,duration:.8,ease:'power2.out'})
+    .from('#heroT',{opacity:0,y:50,duration:1,ease:'power3.out'},'-=.4')
+    .from('#heroSub',{opacity:0,y:30,duration:.9,ease:'power3.out'},'-=.6')
+    .from('#heroBtns',{opacity:0,y:30,duration:.8,ease:'power3.out'},'-=.6');
+
+  if(!hasST){ revealAll(); return; }   // no scroll plugin → just show everything
+
+  // section reveals
+  gsap.utils.toArray('.rv').forEach(el=>{
+    gsap.fromTo(el,{opacity:0,y:60},{opacity:1,y:0,duration:1.1,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 80%'}});
+  });
+  // stepped cards stagger
+  gsap.utils.toArray('.steps').forEach(g=>{
+    gsap.fromTo(g.children,{opacity:0,y:40},{opacity:1,y:0,duration:.7,stagger:.12,ease:'power2.out',
+      scrollTrigger:{trigger:g,start:'top 78%'}});
+  });
+  gsap.utils.toArray('.cards').forEach(g=>{
+    gsap.fromTo(g.children,{opacity:0,y:40,scale:.96},{opacity:1,y:0,scale:1,duration:.7,stagger:.13,ease:'power2.out',
+      scrollTrigger:{trigger:g,start:'top 80%'}});
+  });
+  // counters
+  gsap.utils.toArray('.cu').forEach(el=>{
+    ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:()=>countUp(el)});
+  });
+}
+function countUp(el){
+  const target=+el.dataset.t, start=performance.now();
+  (function tick(now){
+    const p=Math.min((now-start)/1700,1), e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(e*target).toLocaleString();
+    if(p<1) requestAnimationFrame(tick);
+  })(performance.now());
+}
+
+/* nav scrolled state */
+addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('s',scrollY>50);},{passive:true});
+
+/* ───────── PANEL ───────── */
+function openP(t){document.getElementById('panel').classList.add('open');document.getElementById('pov').classList.add('on');document.body.style.overflow='hidden';if(t)swTab(t);}
+function closeP(){document.getElementById('panel').classList.remove('open');document.getElementById('pov').classList.remove('on');document.body.style.overflow='';}
+function swTab(t){document.querySelectorAll('.psec').forEach(e=>e.classList.remove('on'));document.querySelectorAll('.ptab').forEach(e=>e.classList.remove('on'));document.getElementById('t-'+t).classList.add('on');document.querySelector(`.ptab[data-t="${t}"]`).classList.add('on');}
+addEventListener('keydown',e=>{if(e.key==='Escape')closeP();});
+window.openP=openP;window.closeP=closeP;window.swTab=swTab;
+
+/* ───────── BOOT ───────── */
+function hideLoader(){ var l=document.getElementById('loader'); if(l) l.classList.add('done'); }
+// any uncaught error must not leave a stuck loader or hidden content
+window.addEventListener('error',function(e){
+  console.error('[APEX] runtime error:', e.message, e.filename, e.lineno);
+  hideLoader(); revealAll();
+});
+function boot(){
+  try{ buildUniverse(); }
+  catch(err){ console.error('WebGL init failed:',err); var u=document.getElementById('universe'); if(u) u.style.background='radial-gradient(ellipse at 50% 40%,#1a0b3a,#05010f 70%)'; }
+  try{ updateProgress(); }catch(e){ console.error(e); }
+  try{ initGSAP(); }catch(err){ console.error('GSAP init failed:',err); revealAll(); }
+}
+window.addEventListener('load',function(){
+  boot();
+  setTimeout(hideLoader,650);
+});
+// hard safety net: never let the loader hang past 3.5s, whatever happens
+setTimeout(hideLoader,3500);
+</script>
+</body>
+</html>
