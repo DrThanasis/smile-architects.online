@@ -61,6 +61,7 @@ img,video{display:block;max-width:100%}
 .nav.s{padding:1rem 3rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:.6rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:1.28rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
 .brand .spk{width:.8em;height:.8em}
+.brand-logo{width:30px;height:30px;object-fit:contain;display:block;mix-blend-mode:multiply}
 .nav-links{display:flex;gap:2.4rem;list-style:none}
 .nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--blue)}
@@ -69,7 +70,11 @@ img,video{display:block;max-width:100%}
 
 /* HERO */
 .hero{min-height:100vh;display:flex;align-items:center;padding:9rem 3rem 4rem}
-.hero-grid{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.05fr .95fr;gap:4rem;align-items:center}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-bg img{position:absolute;right:-2%;top:50%;transform:translateY(-50%);width:58%;max-width:860px;opacity:.8;mix-blend-mode:multiply;-webkit-mask-image:linear-gradient(90deg,transparent,#000 58%);mask-image:linear-gradient(90deg,transparent,#000 58%)}
+.hero-copy{max-width:640px;position:relative;z-index:2}
+.hero-copy .lead strong{font-weight:600;color:var(--blue)}
+.hero-grid{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr;gap:4rem;align-items:center}
 .hero-copy .ey{margin-bottom:1.6rem}
 .hero-copy .h-display{margin-bottom:1.5rem}
 .hero-copy .lead{max-width:44ch;margin-bottom:2.4rem}
@@ -82,9 +87,9 @@ img,video{display:block;max-width:100%}
 @keyframes cue{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
 
 /* SECTIONS */
-.section{padding:8rem 3rem;background:var(--paper)}
-.section.alt{background:var(--paper-2)}
-.section.deep{background:var(--paper-3)}
+.section{padding:8rem 3rem;background:rgba(245,240,231,.85)}
+.section.alt{background:rgba(239,232,219,.85)}
+.section.deep{background:rgba(232,223,203,.90)}
 .wrap{max-width:1240px;margin:0 auto;position:relative}
 .sec-head{max-width:640px;margin-bottom:3.4rem}
 .sec-head .ey{margin-bottom:1.2rem}
@@ -196,6 +201,7 @@ html:not(.js) #intro{display:none}
   .nav-links{display:none}
   .hero{padding:7rem 1.4rem 5rem;min-height:auto}
   .hero-grid{grid-template-columns:1fr;gap:2.6rem}
+  .hero-bg img{opacity:.16;width:130%;right:-30%}
   .hero-coords,.scrollcue{position:static;margin-top:1.5rem}
   .section{padding:5rem 1.4rem}
   .arch,.wait-grid{grid-template-columns:1fr;gap:2.4rem}
@@ -235,7 +241,7 @@ html:not(.js) #intro{display:none}
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="#top" class="brand"><svg class="spk"><use href="#spk"/></svg>Smile Architects</a>
+  <a href="#top" class="brand"><img class="brand-logo" src="logo-sketch.jpg" alt="Smile Architects logo">Smile Architects</a>
   <ul class="nav-links">
     <li><a href="#method">The Method</a></li>
     <li><a href="#implant">The Implant</a></li>
@@ -248,27 +254,15 @@ html:not(.js) #intro{display:none}
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="grid-bg"></div>
+  <div class="hero-bg"><img src="smile-design.jpg" alt=""></div>
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="ey reveal">Smile Design Atelier · Kavala, Greece</span>
+      <span class="ey reveal">Smile Design Atelier · Kavála, Greece</span>
       <h1 class="h-display reveal d1">We design<br><em>smiles.</em></h1>
-      <p class="lead reveal d2" style="max-width:44ch">Smile Architects is a new dental studio devoted to the art of the smile — ceramic veneers, full-arch restorations and complete transformations, drawn and built to the millimetre. Opening summer 2027.</p>
+      <p class="lead reveal d2" style="max-width:52ch">A smile-design studio where the latest <strong>digital and aesthetic dentistry</strong> meets the craft of the hand. Every smile makeover — ceramic veneers, full-arch restorations and implant work — is planned on screen and mapped to your face, then built in ceramic to the millimetre. Opening summer 2027 in Kavála.</p>
       <div class="hero-btns reveal d3">
         <a href="#waitlist" class="btn btn-fill">Register your interest</a>
         <a href="#method" class="btn btn-line">See the method</a>
-      </div>
-    </div>
-    <div class="pw" data-speed="0.03">
-      <div class="reg reveal-fade media-reveal">
-        <div class="plate">
-          <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-          <div class="mark-frame frame">
-            <video autoplay muted loop playsinline poster="logo-poster.jpg">
-              <source src="logo-animation.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="cap"><span>Plate 01 — The Mark</span><span>Smile Architects™</span></div>
-        </div>
       </div>
     </div>
   </div>
@@ -509,13 +503,13 @@ try{
   var cx=cv.getContext('2d'), W,H,dots=[],DPR=Math.min(2,window.devicePixelRatio||1);
   function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   size(); addEventListener('resize',size);
-  var N=innerWidth<768?32:70;
-  for(var i=0;i<N;i++) dots.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.10*DPR,vy:(Math.random()-.5)*.10*DPR,r:(Math.random()*1.5+.5)*DPR,a:Math.random()*.35+.12});
-  var LINK=(140*DPR)*(140*DPR);
+  var N=innerWidth<768?58:120;
+  for(var i=0;i<N;i++) dots.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.10*DPR,vy:(Math.random()-.5)*.10*DPR,r:(Math.random()*1.5+.5)*DPR,a:Math.random()*.4+.15});
+  var LINK=(155*DPR)*(155*DPR);
   function draw(){
     cx.clearRect(0,0,W,H);
     for(var i=0;i<dots.length;i++){var p=dots[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;else if(p.x>W)p.x=0;if(p.y<0)p.y=H;else if(p.y>H)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.2832);cx.fillStyle='rgba(47,79,124,'+p.a+')';cx.fill();}
-    for(var a=0;a<dots.length;a++)for(var b=a+1;b<dots.length;b++){var dx=dots[a].x-dots[b].x,dy=dots[a].y-dots[b].y,d=dx*dx+dy*dy;if(d<LINK){cx.strokeStyle='rgba(79,116,168,'+(.10*(1-d/LINK))+')';cx.lineWidth=.6*DPR;cx.beginPath();cx.moveTo(dots[a].x,dots[a].y);cx.lineTo(dots[b].x,dots[b].y);cx.stroke();}}
+    for(var a=0;a<dots.length;a++)for(var b=a+1;b<dots.length;b++){var dx=dots[a].x-dots[b].x,dy=dots[a].y-dots[b].y,d=dx*dx+dy*dy;if(d<LINK){cx.strokeStyle='rgba(79,116,168,'+(.14*(1-d/LINK))+')';cx.lineWidth=.6*DPR;cx.beginPath();cx.moveTo(dots[a].x,dots[a].y);cx.lineTo(dots[b].x,dots[b].y);cx.stroke();}}
     requestAnimationFrame(draw);
   }
   draw();
