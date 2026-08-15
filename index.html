@@ -61,7 +61,7 @@ img,video{display:block;max-width:100%}
 .nav.s{padding:1rem 3rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:.5rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:3.84rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;line-height:1}
 .brand .spk{width:.8em;height:.8em}
-.brand-logo{width:60px;height:60px;object-fit:contain;display:block;mix-blend-mode:multiply}
+.brand-logo{width:120px;height:120px;object-fit:contain;display:block;mix-blend-mode:multiply}
 .nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
 .nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--blue)}
@@ -254,7 +254,7 @@ html:not(.js) #intro{display:none}
 .nav-links .has-drop:hover .drop,.nav-links .has-drop:focus-within .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(9px)}
 .nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 .nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
-@media(max-width:1150px){ .brand{font-size:2rem} .brand-logo{width:38px;height:38px} }
+@media(max-width:1150px){ .brand{font-size:2rem} .brand-logo{width:76px;height:76px} }
 /* PRACTICE MENU CARDS */
 .practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:.5rem}
 .practice-card{background:rgba(245,240,231,.6);padding:2.2rem 2rem;text-decoration:none;display:flex;flex-direction:column;gap:.5rem;transition:background .35s,transform .35s}
@@ -796,12 +796,12 @@ try{
       var t=brand.getBoundingClientRect(), s=mark.getBoundingClientRect();
       var scale=Math.max(0.07, t.height/s.height);
       var tx=(t.left+t.width/2)-(s.left+s.width/2), ty=(t.top+t.height/2)-(s.top+s.height/2);
-      mark.style.transition='transform 1.05s cubic-bezier(.65,0,.2,1),opacity .55s ease .5s';
+      mark.style.transition='transform 1.7s cubic-bezier(.45,.05,.2,1),opacity .6s ease 1.15s';
       mark.style.transform='translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+scale.toFixed(3)+')';
       mark.style.opacity='0';
     }catch(e){}
-    intro.style.transition='opacity .7s ease .45s'; intro.style.opacity='0';
-    setTimeout(function(){ if(intro.parentNode) intro.parentNode.removeChild(intro); }, 1350);
+    intro.style.transition='opacity 1s ease .6s'; intro.style.opacity='0';
+    setTimeout(function(){ if(intro.parentNode) intro.parentNode.removeChild(intro); }, 2100);
   }
   if(iv){
     iv.addEventListener('ended', endIntro);
