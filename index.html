@@ -87,9 +87,9 @@ img,video{display:block;max-width:100%}
 @keyframes cue{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
 
 /* SECTIONS */
-.section{padding:8rem 3rem;background:rgba(245,240,231,.85)}
-.section.alt{background:rgba(239,232,219,.85)}
-.section.deep{background:rgba(232,223,203,.90)}
+.section{padding:8rem 3rem}
+.section.alt{background:transparent}
+.section.deep{background:transparent}
 .wrap{max-width:1240px;margin:0 auto;position:relative}
 .sec-head{max-width:640px;margin-bottom:3.4rem}
 .sec-head .ey{margin-bottom:1.2rem}
@@ -109,7 +109,7 @@ img,video{display:block;max-width:100%}
 .mstep .md{color:var(--ink-2);font-size:.95rem;line-height:1.6}
 
 /* TOOTH → IMPLANT MORPH */
-.morph-sec{height:280vh;background:var(--paper-3);position:relative}
+.morph-sec{height:500vh;background:transparent;position:relative}
 .morph-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 #morphCv{position:absolute;inset:0;width:100%;height:100%}
 .morph-labels{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;padding:0 3rem}
@@ -122,9 +122,9 @@ img,video{display:block;max-width:100%}
 
 /* CRAFT */
 .craft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.craft-card{background:var(--paper);padding:2.6rem 2.4rem;position:relative;transition:background .4s,transform .4s}
-.section.alt .craft-card{background:var(--paper-2)}
-.craft-card:hover{background:var(--white);transform:translateY(-3px)}
+.craft-card{background:rgba(245,240,231,.55);padding:2.6rem 2.4rem;position:relative;transition:background .4s,transform .4s}
+.section.alt .craft-card{background:rgba(239,232,219,.55)}
+.craft-card:hover{background:rgba(251,248,242,.9);transform:translateY(-3px)}
 .craft-card .n{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--blue);margin-bottom:1.4rem;display:block}
 .craft-card h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.55rem;margin-bottom:.7rem;letter-spacing:-.015em}
 .craft-card p{color:var(--ink-2);font-size:.98rem;line-height:1.65;font-weight:300}
@@ -141,7 +141,7 @@ img,video{display:block;max-width:100%}
 /* WAITLIST */
 .wait{position:relative;overflow:hidden}
 .wait-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center;position:relative;z-index:2}
-.wait-form{background:var(--white);border:1px solid var(--line-2);padding:2.4rem}
+.wait-form{background:rgba(251,248,242,.9);border:1px solid var(--line-2);padding:2.4rem}
 .field{margin-bottom:1.1rem}
 .field label{display:block;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:.4rem}
 .field input,.field select{width:100%;background:var(--paper);border:1px solid var(--line-2);border-radius:3px;color:var(--ink);padding:.72rem .85rem;font-family:'Manrope',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s}
@@ -209,7 +209,7 @@ html:not(.js) #intro{display:none}
   .craft-grid{grid-template-columns:1fr}
   .foot-grid{flex-direction:column}
   .pw{transform:none!important}
-  .morph-sec{height:220vh}
+  .morph-sec{height:400vh}
   .morph-labels .h-sec{font-size:2rem}
 }
 @media (prefers-reduced-motion: reduce){
@@ -301,7 +301,6 @@ html:not(.js) #intro{display:none}
 <!-- TOOTH → IMPLANT MORPH -->
 <section class="morph-sec" id="implant">
   <div class="morph-sticky">
-    <canvas id="morphCv"></canvas>
     <div class="morph-labels">
       <div class="inner">
         <span class="ey">Fig. 02 — Tooth to Implant</span>
@@ -495,36 +494,16 @@ try{
   }
 }catch(e){}
 
-/* animated constellation background */
+/* ── UNIFIED STAR FIELD: ambient constellation that gathers into the tooth, then the implant ── */
 try{
 (function(){
   var cv=document.getElementById('bg');
   if(!cv || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var cx=cv.getContext('2d'), W,H,dots=[],DPR=Math.min(2,window.devicePixelRatio||1);
-  function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
-  size(); addEventListener('resize',size);
-  var N=innerWidth<768?58:120;
-  for(var i=0;i<N;i++) dots.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.10*DPR,vy:(Math.random()-.5)*.10*DPR,r:(Math.random()*1.5+.5)*DPR,a:Math.random()*.4+.15});
-  var LINK=(155*DPR)*(155*DPR);
-  function draw(){
-    cx.clearRect(0,0,W,H);
-    for(var i=0;i<dots.length;i++){var p=dots[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;else if(p.x>W)p.x=0;if(p.y<0)p.y=H;else if(p.y>H)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.2832);cx.fillStyle='rgba(47,79,124,'+p.a+')';cx.fill();}
-    for(var a=0;a<dots.length;a++)for(var b=a+1;b<dots.length;b++){var dx=dots[a].x-dots[b].x,dy=dots[a].y-dots[b].y,d=dx*dx+dy*dy;if(d<LINK){cx.strokeStyle='rgba(79,116,168,'+(.14*(1-d/LINK))+')';cx.lineWidth=.6*DPR;cx.beginPath();cx.moveTo(dots[a].x,dots[a].y);cx.lineTo(dots[b].x,dots[b].y);cx.stroke();}}
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-}catch(e){}
-
-/* ── CRISP TOOTH → IMPLANT SCROLL MORPH (Canvas 2D) ── */
-try{
-(function(){
-  var cv=document.getElementById('morphCv'); if(!cv) return;
   var ctx=cv.getContext('2d'), W,H, DPR=Math.min(2,window.devicePixelRatio||1);
-  var N=innerWidth<768?2600:4800, tooth,imp,opac, progress=0, time=0, titleState=-1;
-  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var N=innerWidth<768?480:900;
+  var P=new Array(N), tooth,imp,idepth, g=0, m=0, spd=1, time=0, titleState=-1;
 
-  function size(){ var w=cv.parentElement; W=cv.width=w.clientWidth*DPR; H=cv.height=w.clientHeight*DPR; cv.style.width=w.clientWidth+'px'; cv.style.height=w.clientHeight+'px'; }
+  function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   function sampleShape(fn){
     var S=520, oc=document.createElement('canvas'); oc.width=oc.height=S;
     var o=oc.getContext('2d'); o.fillStyle='#000'; o.fillRect(0,0,S,S); o.fillStyle='#fff'; fn(o,S);
@@ -563,45 +542,122 @@ try{
     for(i=T;i>=0;i--){ f=i/T; y=top+f*(bot-top-24*u); r=rTop+(rBot-rTop)*f; x.lineTo(cx-r-7*u, y+(bot-top)/T*0.42); x.lineTo(cx-r, y); }
     x.closePath(); x.fill();
   }
-  function build(){ tooth=sampleShape(drawTooth); normalize(tooth); imp=sampleShape(drawImplant); normalize(imp);
-    opac=new Float32Array(N); for(var i=0;i<N;i++) opac[i]=0.40+Math.random()*0.45; }
+  function buildImplant(){
+    /* body (neck down) unchanged; TOP reshaped into a wider, cusped tooth crown */
+    var out=new Float32Array(N*2), dep=new Float32Array(N), turns=8;
+    function taper(y){ return 0.185+(0.115-0.185)*((y-0.02)/0.40); }
+    function bodyR(y){
+      if(y<-0.14) return 0.10;
+      if(y<-0.09) return 0.10+(0.20-0.10)*((y+0.14)/0.05);
+      if(y<0.02)  return 0.20+(0.185-0.20)*((y+0.09)/0.11);
+      if(y<0.42){ var base=taper(y), ph=((y-0.02)/0.40)*turns, saw=Math.abs((ph%1)-0.5)*2; return base+saw*0.028; }
+      return Math.max(0,taper(0.42)*(1-((y-0.42)/0.08)));
+    }
+    function crownW(y){ var ct=(y+0.5)/0.30;
+      if(ct<0.28) return 0.34+(0.42-0.34)*(ct/0.28);
+      return 0.42+(0.10-0.42)*((ct-0.28)/0.72);
+    }
+    function crownTop(x){ var ax=Math.abs(x), hump=Math.max(0,1-Math.pow((ax-0.16)/0.14,2)); return -0.5+(0.055-hump*0.045); }
+    var edgeN=Math.floor(N*0.30), chanN=Math.floor(N*0.04), crownN=Math.floor(N*0.28), idx=0, i, guard=0;
+    for(i=0;i<edgeN;i++){                                    /* outline stars: crown + body (incl. thread ridges) */
+      var y=Math.random()-0.5, R=(y<-0.20)?crownW(y):bodyR(y), side=(Math.random()<0.5)?-1:1;
+      out[idx*2]=side*R*(0.94+Math.random()*0.06); out[idx*2+1]=y; dep[idx]=(Math.random()-0.5)*R*0.7; idx++;
+    }
+    for(i=0;i<chanN;i++){                                    /* internal screw channel */
+      var s2=(i%2===0)?-1:1, y2=-0.09+Math.random()*0.16;
+      out[idx*2]=s2*0.05+(Math.random()-0.5)*0.008; out[idx*2+1]=y2; dep[idx]=(Math.random()-0.5)*0.02; idx++;
+    }
+    var cf=0;                                               /* crown fill under the cusped occlusal */
+    while(cf<crownN && guard<N*90){ guard++;
+      var yc=-0.5+Math.random()*0.30, xc=(Math.random()-0.5)*0.9, Rc=crownW(yc);
+      if(Math.abs(xc)<Rc && yc>=crownTop(xc)){ var zc=Math.sqrt(Math.max(0,Rc*Rc-xc*xc)); out[idx*2]=xc; out[idx*2+1]=yc; dep[idx]=(Math.random()*2-1)*zc; idx++; cf++; }
+    }
+    while(idx<N && guard<N*220){ guard++;                   /* body fill (neck down) */
+      var y3=-0.20+Math.random()*0.70, x3=(Math.random()-0.5)*0.5, Rb=bodyR(y3);
+      if(Math.abs(x3)<Rb){ var zm=Math.sqrt(Math.max(0,Rb*Rb-x3*x3)); out[idx*2]=x3; out[idx*2+1]=y3; dep[idx]=(Math.random()*2-1)*zm; idx++; }
+    }
+    return {pts:out, depth:dep};
+  }
+  function build(){
+    tooth=sampleShape(drawTooth); normalize(tooth);
+    var im=buildImplant(); imp=im.pts; idepth=im.depth; normalize(imp);
+    var md=0.0001,ii; for(ii=0;ii<N;ii++) if(Math.abs(idepth[ii])>md) md=Math.abs(idepth[ii]);
+    for(ii=0;ii<N;ii++) idepth[ii]/=md;
+    for(var i=0;i<N;i++){ var hx=Math.random()*W, hy=Math.random()*H;
+      P[i]={hx:hx,hy:hy,vx:(Math.random()-.5)*.11*DPR,vy:(Math.random()-.5)*.11*DPR,ph:Math.random()*6.28,r:(Math.random()*1.4+.6)*DPR,a:Math.random()*.4+.2,x:hx,y:hy}; }
+  }
 
-  function render(){
+  var LINKb=118*DPR;
+  function frame(){
     time+=0.016;
     ctx.clearRect(0,0,W,H);
-    var cx=W/2, cy=H/2, sc=Math.min(W,H)*0.64, p=progress, i,tx,ty,ix,iy,px,py, dot=1.5*DPR;
-    var ep = p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
-    var dr = reduced?0:0.6*DPR;
+    var cx=W*0.60, cy=H*0.52, sc=Math.min(W,H)*0.64;
+    var ep = m<0.5 ? 2*m*m : 1-Math.pow(-2*m+2,2)/2;
+    var i,p,sx,sy,txp,typ, drift=g<0.99?1:0;
     for(i=0;i<N;i++){
-      tx=tooth[i*2]; ty=tooth[i*2+1]; ix=imp[i*2]; iy=imp[i*2+1];
-      px=cx+(tx+(ix-tx)*ep)*sc + (dr?Math.sin(time*0.8+i*0.4)*dr:0);
-      py=cy+(ty+(iy-ty)*ep)*sc + (dr?Math.cos(time*0.7+i*0.5)*dr:0);
-      ctx.fillStyle='rgba(47,79,124,'+opac[i]+')';
-      ctx.fillRect(px,py,dot,dot);
+      p=P[i];
+      if(drift){
+        p.hx+=p.vx*spd + Math.sin(time*0.35+p.ph)*0.14*DPR;
+        p.hy+=p.vy*spd + Math.cos(time*0.32+p.ph)*0.14*DPR;
+        if(p.hx<0)p.hx=W; else if(p.hx>W)p.hx=0;
+        if(p.hy<0)p.hy=H; else if(p.hy>H)p.hy=0;
+      }
+      sx=cx+(tooth[i*2]+(imp[i*2]-tooth[i*2])*ep)*sc + Math.sin(time*0.7+i*0.4)*0.5*DPR;
+      sy=cy+(tooth[i*2+1]+(imp[i*2+1]-tooth[i*2+1])*ep)*sc + Math.cos(time*0.6+i*0.5)*0.5*DPR;
+      txp=p.hx+(sx-p.hx)*g; typ=p.hy+(sy-p.hy)*g;
+      p.x+=(txp-p.x)*0.12; p.y+=(typ-p.y)*0.12;
+      var tw=p.a*(0.72+0.28*Math.sin(time*1.4+p.ph));
+      var d01=(idepth[i]+1)*0.5, factor=(1-m)+(0.35+0.65*d01)*m, rr=p.r*((1-m)+(0.85+0.35*d01)*m);
+      ctx.fillStyle='rgba(47,79,124,'+(tw*factor)+')';
+      ctx.fillRect(p.x-rr*0.5,p.y-rr*0.5,rr*1.3,rr*1.3);
     }
-    requestAnimationFrame(render);
+    var LINK=LINKb*(1-0.5*g), LINK2=LINK*LINK, CELL=LINK||1, grid={},key,gx,gy,a,b,cell,k,q,dx,dy,d;
+    for(i=0;i<N;i++){ p=P[i]; gx=(p.x/CELL)|0; gy=(p.y/CELL)|0; key=gx+'_'+gy; (grid[key]||(grid[key]=[])).push(i); }
+    ctx.lineWidth=.6*DPR;
+    for(i=0;i<N;i++){
+      p=P[i]; gx=(p.x/CELL)|0; gy=(p.y/CELL)|0;
+      for(a=-1;a<=1;a++)for(b=-1;b<=1;b++){
+        cell=grid[(gx+a)+'_'+(gy+b)]; if(!cell) continue;
+        for(k=0;k<cell.length;k++){ if(cell[k]<=i) continue; q=P[cell[k]];
+          dx=p.x-q.x; dy=p.y-q.y; d=dx*dx+dy*dy;
+          if(d<LINK2){ ctx.strokeStyle='rgba(79,116,168,'+(.14*(1-d/LINK2))+')'; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+        }
+      }
+    }
+    requestAnimationFrame(frame);
   }
 
   function onScroll(){
-    var sec=document.getElementById('implant'); if(!sec) return;
-    var r=sec.getBoundingClientRect(), total=r.height-innerHeight;
-    progress = total>0 ? Math.max(0,Math.min(1,-r.top/total)) : 0;
-    var bar=document.getElementById('morphBar'); if(bar) bar.style.width=(progress*100)+'%';
-    var st = progress<0.5?0:1;
-    if(st!==titleState){
-      titleState=st;
-      var t=document.getElementById('morphTitle'), d=document.getElementById('morphDesc');
-      if(t) t.innerHTML = st===0 ? 'A tooth,<br>once <em>lost.</em>' : 'Rebuilt from<br>the <em>root.</em>';
-      if(d) d.textContent = st===0
-        ? 'Scroll, and watch a missing tooth resolve into a titanium implant — the permanent root we place to rebuild your smile from the foundation up.'
-        : 'A single titanium fixture, integrated with living bone, becomes the anchor for a new tooth that looks, feels and lasts like your own.';
-    }
+    var max=document.documentElement.scrollHeight-innerHeight, sp=max>0?Math.min(1,scrollY/max):0;
+    spd=1+sp*2.2;
+    var sec=document.getElementById('implant');
+    if(sec){
+      var r=sec.getBoundingClientRect(), total=r.height-innerHeight;
+      var pr = total>0 ? Math.max(0,Math.min(1,-r.top/total)) : 0;
+      if(pr<=0.05||pr>=0.99) g=0;
+      else if(pr<0.27) g=(pr-0.05)/0.22;     /* gather: stars -> molar */
+      else if(pr>0.80) g=(0.99-pr)/0.19;     /* slow disperse: implant -> stars */
+      else g=1;
+      if(g<0)g=0; if(g>1)g=1;
+      /* molar holds 0.27-0.43, morph 0.43-0.64, implant holds 0.64-0.80 (longer holds) */
+      m = pr<0.43 ? 0 : (pr>0.64 ? 1 : (pr-0.43)/0.21);
+      var bar=document.getElementById('morphBar'); if(bar) bar.style.width=(Math.max(0,Math.min(1,(pr-0.05)/0.9))*100)+'%';
+      var st = m<0.5?0:1;
+      if(st!==titleState){
+        titleState=st;
+        var t=document.getElementById('morphTitle'), dd=document.getElementById('morphDesc');
+        if(t) t.innerHTML = st===0 ? 'A tooth,<br>once <em>lost.</em>' : 'Rebuilt from<br>the <em>root.</em>';
+        if(dd) dd.textContent = st===0
+          ? 'Scroll, and watch the field gather into a missing tooth — then resolve into the titanium implant we place to rebuild your smile from the foundation up.'
+          : 'A single titanium fixture, integrated with living bone, becomes the anchor for a new tooth that looks, feels and lasts like your own.';
+      }
+    } else { g=0; }
   }
 
-  ctx=cv.getContext('2d'); size(); build();
+  size(); build();
   addEventListener('resize',function(){ size(); },{passive:true});
   addEventListener('scroll',onScroll,{passive:true});
-  onScroll(); render();
+  onScroll(); frame();
 })();
 }catch(e){}
 
