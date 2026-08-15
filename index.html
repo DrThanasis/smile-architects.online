@@ -59,10 +59,10 @@ img,video{display:block;max-width:100%}
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;transition:padding .4s,background .4s,border-color .4s;border-bottom:1px solid transparent}
 .nav.s{padding:1rem 3rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:1.28rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:3.84rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;line-height:1}
 .brand .spk{width:.8em;height:.8em}
-.brand-logo{width:30px;height:30px;object-fit:contain;display:block;mix-blend-mode:multiply}
-.nav-links{display:flex;gap:2.4rem;list-style:none}
+.brand-logo{width:60px;height:60px;object-fit:contain;display:block;mix-blend-mode:multiply}
+.nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
 .nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--blue)}
 .nav-cta{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;background:var(--blue);color:var(--white);border-radius:3px;text-decoration:none;transition:background .3s,transform .3s}
@@ -247,6 +247,14 @@ html:not(.js) #intro{display:none}
 .ethos-list{margin-top:1.3rem;display:flex;flex-direction:column;gap:1.3rem;max-width:740px}
 .ethos-list .k{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.35rem}
 @media(max-width:940px){ .portfolio-grid{grid-template-columns:repeat(2,1fr)} .dl>div{flex-direction:column;gap:.25rem} .dl .k{min-width:0} }
+/* PRACTICE NAV DROPDOWN */
+.nav-links .has-drop{position:relative}
+.nav-links .has-drop::after{content:'';position:absolute;top:100%;left:-10px;right:-10px;height:18px}
+.nav-links .drop{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(16px);min-width:212px;background:rgba(245,240,231,.98);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:5px;padding:.45rem;list-style:none;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;box-shadow:0 16px 42px rgba(30,37,48,.13);z-index:90}
+.nav-links .has-drop:hover .drop,.nav-links .has-drop:focus-within .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(9px)}
+.nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
+@media(max-width:1150px){ .brand{font-size:2rem} .brand-logo{width:38px;height:38px} }
 </style>
 </head>
 <body>
@@ -274,7 +282,18 @@ html:not(.js) #intro{display:none}
     <li><a href="#implant">The Implant</a></li>
     <li><a href="#craft">The Craft</a></li>
     <li><a href="#architect">The Architect</a></li>
-    <li><a href="#practice">The Practice</a></li>
+    <li class="has-drop">
+      <a href="#practice">The Practice</a>
+      <ul class="drop">
+        <li><a href="#practice" data-tab="about">About</a></li>
+        <li><a href="#practice" data-tab="team">Meet the Team</a></li>
+        <li><a href="#practice" data-tab="contact">Contact</a></li>
+        <li><a href="#practice" data-tab="location">Location</a></li>
+        <li><a href="#practice" data-tab="pricing">Pricelist &amp; Finance</a></li>
+        <li><a href="#practice" data-tab="portfolio">Case Portfolio</a></li>
+        <li><a href="#practice" data-tab="ethos">Practice Ethos</a></li>
+      </ul>
+    </li>
   </ul>
   <a href="#waitlist" class="nav-cta">Register Interest</a>
 </nav>
@@ -799,6 +818,16 @@ try{
       document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('active');});
       t.classList.add('active');
       var p=document.getElementById('pane-'+id); if(p) p.classList.add('active');
+    });
+  });
+}catch(e){}
+
+/* practice dropdown -> open the matching tab */
+try{
+  document.querySelectorAll('.drop a[data-tab]').forEach(function(a){
+    a.addEventListener('click',function(){
+      var id=a.getAttribute('data-tab'), tb=document.querySelector('.tab[data-tab="'+id+'"]');
+      if(tb) tb.click();
     });
   });
 }catch(e){}
