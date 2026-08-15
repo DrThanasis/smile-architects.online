@@ -281,6 +281,7 @@ html:not(.js) #intro{display:none}
   <div id="introSkip">Skip intro &#10005;</div>
 </div>
 
+<script>try{if(sessionStorage.getItem('sa_intro')==='1'){var _si=document.getElementById('intro');if(_si)_si.style.display='none';}}catch(e){}</script>
 <svg width="0" height="0" style="position:absolute"><symbol id="spk" viewBox="0 0 24 24"><path d="M12 0c1.1 8 3.9 10.9 12 12-8.1 1.1-10.9 4-12 12-1.1-8-3.9-10.9-12-12 8.1-1.1 10.9-4 12-12z"/></symbol></svg>
 
 <!-- NAV -->
@@ -782,6 +783,9 @@ try{
 try{
 (function(){
   var intro=document.getElementById('intro'); if(!intro) return;
+  var seen=false; try{ seen=sessionStorage.getItem('sa_intro')==='1'; }catch(e){}
+  if(seen){ if(intro.parentNode) intro.parentNode.removeChild(intro); document.documentElement.style.overflow=''; return; }
+  try{ sessionStorage.setItem('sa_intro','1'); }catch(e){}
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
   var mark=document.getElementById('introMark'), iv=document.getElementById('introVideo'), brand=document.querySelector('.brand'), done=false;
   document.documentElement.style.overflow='hidden';
