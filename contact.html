@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Smile Architects</title>
+<meta name="description" content="Get in touch with Smile Architects and register your interest.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#f5f0e7;--paper-2:#efe8db;--paper-3:#e8dfce;--white:#fbf8f2;--ink:#1e2530;--ink-2:#4b515b;--ink-3:#6f6a60;--blue:#2f4f7c;--blue-2:#4f74a8;--blue-3:#82a4cd;--line:rgba(47,79,124,.16);--line-2:rgba(47,79,124,.30);--ease:cubic-bezier(.19,1,.22,1)}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+#bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+.ey{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);display:inline-block}
+.btn{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;padding:1.02rem 1.9rem;border-radius:3px;text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;transition:background .35s,transform .35s;cursor:pointer;border:1px solid transparent}
+.btn-fill{background:var(--blue);color:var(--white)}
+.btn-fill:hover{background:var(--ink);transform:translateY(-2px)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(245,240,231,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:3.84rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;line-height:1}
+.brand-logo{width:60px;height:60px;object-fit:contain;display:block;mix-blend-mode:multiply}
+.nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
+.nav-links>li>a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
+.nav-links>li>a:hover{color:var(--blue)}
+.nav-cta{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;background:var(--blue);color:var(--white)!important;border-radius:3px;text-decoration:none;transition:background .3s,transform .3s}
+.nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
+.nav-links .has-drop{position:relative}
+.nav-links .has-drop::after{content:'';position:absolute;top:100%;left:-10px;right:-10px;height:18px}
+.nav-links .drop{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(16px);min-width:212px;background:rgba(245,240,231,.98);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:5px;padding:.45rem;list-style:none;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;box-shadow:0 16px 42px rgba(30,37,48,.13);z-index:90}
+.nav-links .has-drop:hover .drop,.nav-links .has-drop:focus-within .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(9px)}
+.nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap;text-decoration:none}
+.nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
+.page{position:relative;z-index:1;min-height:100vh;padding:200px 3rem 6rem}
+.page-inner{max-width:900px;margin:0 auto}
+.back{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;display:inline-block;margin-bottom:2.2rem;transition:color .3s}
+.back:hover{color:var(--blue)}
+.page .ey{margin-bottom:1.1rem}
+.page-title{font-family:'Manrope',sans-serif;font-weight:300;font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02;letter-spacing:-.03em;margin-bottom:1.2rem}
+.rule{height:1px;width:120px;background:var(--line-2);margin-bottom:2.4rem}
+.content .lead{font-size:clamp(1.1rem,1.5vw,1.32rem);line-height:1.7;color:var(--ink-2);font-weight:300;margin-bottom:1.4rem;max-width:66ch}
+.content p{color:var(--ink-2);font-weight:300;line-height:1.75;max-width:66ch;margin-bottom:1.1rem}
+.content h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.7rem;letter-spacing:-.01em;margin-bottom:.35rem}
+.content h4{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.15rem;margin:1.9rem 0 .6rem}
+.role{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.dl{margin-top:1.8rem;display:flex;flex-direction:column;max-width:820px}
+.dl>div{display:flex;gap:1.4rem;padding:.85rem 0;border-bottom:1px solid var(--line);font-size:.98rem;color:var(--ink-2);font-weight:300}
+.dl .k{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);min-width:10rem;flex-shrink:0;padding-top:.2rem}
+.team-note,.soft-note{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.07em;color:var(--ink-3);margin-top:1.8rem}
+.price-list{margin-top:.8rem;max-width:680px}
+.price-row{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line);font-weight:300;color:var(--ink)}
+.price-row .amt{font-family:'Space Mono',monospace;font-size:.85rem;color:var(--blue);white-space:nowrap}
+.portfolio-grid{margin-top:1.6rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.case-tile{background:rgba(245,240,231,.6);aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem}
+.case-tile>span:first-child{font-family:'Manrope',sans-serif;font-weight:600;color:var(--ink-2);font-size:.98rem}
+.case-tile .soon{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.ethos-list{margin-top:1.6rem;display:flex;flex-direction:column;gap:1.5rem;max-width:760px}
+.ethos-list .k{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.4rem}
+.ethos-list p{margin-bottom:0}
+footer{position:relative;z-index:1;background:var(--ink);color:#c9c6bd;padding:3.5rem 3rem 2.5rem}
+.foot-grid{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem}
+.foot-brand{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.4rem;color:var(--white);letter-spacing:-.01em;text-decoration:none}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-3);margin-bottom:1rem}
+.foot-col a,.foot-col p{color:#c9c6bd;text-decoration:none;font-size:.9rem;display:block;margin-bottom:.5rem;font-weight:300}
+.foot-col a:hover{color:var(--white)}
+.foot-base{max-width:1240px;margin:2.4rem auto 0;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.1);font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:#8b887f}
+@media(max-width:1150px){.brand{font-size:2rem}.brand-logo{width:38px;height:38px}}
+@media(max-width:940px){.nav{padding:1rem 1.4rem}.nav-links{display:none}.page{padding:120px 1.4rem 4rem}.portfolio-grid{grid-template-columns:repeat(2,1fr)}.dl>div{flex-direction:column;gap:.25rem}.dl .k{min-width:0}.foot-grid{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){#bg{display:none}}</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<nav class="nav">
+  <a href="index.html" class="brand"><img class="brand-logo" src="logo-sketch.jpg" alt="Smile Architects logo">Smile Architects</a>
+  <ul class="nav-links">
+    <li><a href="index.html#method">The Method</a></li>
+    <li><a href="index.html#implant">The Implant</a></li>
+    <li><a href="index.html#craft">The Craft</a></li>
+    <li><a href="index.html#architect">The Architect</a></li>
+    <li class="has-drop">
+      <a href="index.html#practice">The Practice</a>
+      <ul class="drop">
+        <li><a href="about.html">About</a></li>
+        <li><a href="team.html">Meet the Team</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="location.html">Location</a></li>
+        <li><a href="pricing.html">Pricelist &amp; Finance</a></li>
+        <li><a href="portfolio.html">Case Portfolio</a></li>
+        <li><a href="ethos.html">Practice Ethos</a></li>
+      </ul>
+    </li>
+  </ul>
+  <a href="index.html#waitlist" class="nav-cta">Register Interest</a>
+</nav>
+<main class="page">
+  <div class="page-inner">
+    <a href="index.html#practice" class="back">← The Practice</a>
+    <span class="ey">The Practice</span>
+    <h1 class="page-title">Contact</h1>
+    <div class="rule"></div>
+    <div class="content">
+      <p class="lead">We&rsquo;d love to hear from you. The clinic opens in summer 2027 — register your interest now to be first in line for a consultation.</p>
+      <div class="dl">
+        <div><span class="k">Email</span><span>hello@smile-architects.online</span></div>
+        <div><span class="k">Phone</span><span>To be announced</span></div>
+        <div><span class="k">Instagram</span><span>@smilearchitects</span></div>
+        <div><span class="k">Studio</span><span>Kavála, Greece</span></div>
+      </div>
+      <a href="index.html#waitlist" class="btn btn-fill" style="margin-top:1.8rem">Register your interest</a>
+      <p class="soft-note">Contact details are placeholders — to be confirmed before opening.</p>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="foot-grid">
+    <div><a href="index.html" class="foot-brand">Smile Architects</a><p style="margin-top:.7rem;max-width:24ch;font-size:.85rem;color:#a7a49b;font-weight:300">A smile-design dental studio. Opening summer 2027 in Kavála, Greece.</p></div>
+    <div class="foot-col"><h5>Studio</h5><p>Kavála, Greece</p><p>Opening Summer 2027</p><a href="mailto:hello@smile-architects.online">hello@smile-architects.online</a></div>
+    <div class="foot-col"><h5>Explore</h5><a href="index.html">Home</a><a href="index.html#practice">The Practice</a><a href="index.html#waitlist">Register interest</a></div>
+  </div>
+  <div class="foot-base">© 2026 Smile Architects Dental Clinic · 40.94° N / 24.41° E — Kavála, GR</div>
+</footer>
+<script>(function(){
+  var cv=document.getElementById('bg'); if(!cv||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ctx=cv.getContext('2d'),W,H,P=[],DPR=Math.min(2,window.devicePixelRatio||1),mx=-9999,my=-9999,MR=190*DPR,MR2=MR*MR,time=0;
+  function size(){W=cv.width=innerWidth*DPR;H=cv.height=innerHeight*DPR;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  size();addEventListener('resize',size);
+  var N=innerWidth<768?46:96;
+  for(var i=0;i<N;i++){var hx=Math.random()*W,hy=Math.random()*H;P.push({hx:hx,hy:hy,vx:(Math.random()-.5)*.11*DPR,vy:(Math.random()-.5)*.11*DPR,ph:Math.random()*6.28,r:(Math.random()*1.4+.6)*DPR,a:Math.random()*.4+.2,ox:0,oy:0,x:hx,y:hy});}
+  var LINK=(150*DPR)*(150*DPR);
+  addEventListener('mousemove',function(e){mx=e.clientX*DPR;my=e.clientY*DPR;},{passive:true});
+  function frame(){
+    time+=0.016;ctx.clearRect(0,0,W,H);
+    for(var i=0;i<N;i++){var p=P[i];
+      p.hx+=p.vx+Math.sin(time*0.35+p.ph)*0.14*DPR;p.hy+=p.vy+Math.cos(time*0.32+p.ph)*0.14*DPR;
+      if(p.hx<0)p.hx=W;else if(p.hx>W)p.hx=0;if(p.hy<0)p.hy=H;else if(p.hy>H)p.hy=0;
+      var txp=p.hx,typ=p.hy,desx=0,desy=0,nb=0;
+      if(mx>-9000){var dxm=mx-p.x,dym=my-p.y,dm2=dxm*dxm+dym*dym;if(dm2<MR2){var inf=1-Math.sqrt(dm2)/MR;desx=dxm*inf*0.65;desy=dym*inf*0.65;nb=inf;}}
+      p.ox+=(desx-p.ox)*0.038;p.oy+=(desy-p.oy)*0.038;txp+=p.ox;typ+=p.oy;
+      p.x+=(txp-p.x)*0.12;p.y+=(typ-p.y)*0.12;
+      var tw=p.a*(0.72+0.28*Math.sin(time*1.4+p.ph))*(1+nb*1.5),rr=p.r*(1+nb*0.55);
+      ctx.beginPath();ctx.arc(p.x,p.y,rr,0,6.2832);ctx.fillStyle='rgba(47,79,124,'+tw+')';ctx.fill();
+    }
+    for(var a=0;a<N;a++)for(var b=a+1;b<N;b++){var dx=P[a].x-P[b].x,dy=P[a].y-P[b].y,dd=dx*dx+dy*dy;if(dd<LINK){ctx.strokeStyle='rgba(79,116,168,'+(.14*(1-dd/LINK))+')';ctx.lineWidth=.6*DPR;ctx.beginPath();ctx.moveTo(P[a].x,P[a].y);ctx.lineTo(P[b].x,P[b].y);ctx.stroke();}}
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();</script>
+</body>
+</html>

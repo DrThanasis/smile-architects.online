@@ -255,6 +255,15 @@ html:not(.js) #intro{display:none}
 .nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 .nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
 @media(max-width:1150px){ .brand{font-size:2rem} .brand-logo{width:38px;height:38px} }
+/* PRACTICE MENU CARDS */
+.practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:.5rem}
+.practice-card{background:rgba(245,240,231,.6);padding:2.2rem 2rem;text-decoration:none;display:flex;flex-direction:column;gap:.5rem;transition:background .35s,transform .35s}
+.practice-card:hover{background:var(--white);transform:translateY(-3px)}
+.practice-card .pn{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--blue)}
+.practice-card h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink)}
+.practice-card p{color:var(--ink-2);font-weight:300;font-size:.92rem;line-height:1.55;flex-grow:1}
+.practice-card .go{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+@media(max-width:940px){.practice-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -285,13 +294,13 @@ html:not(.js) #intro{display:none}
     <li class="has-drop">
       <a href="#practice">The Practice</a>
       <ul class="drop">
-        <li><a href="#practice" data-tab="about">About</a></li>
-        <li><a href="#practice" data-tab="team">Meet the Team</a></li>
-        <li><a href="#practice" data-tab="contact">Contact</a></li>
-        <li><a href="#practice" data-tab="location">Location</a></li>
-        <li><a href="#practice" data-tab="pricing">Pricelist &amp; Finance</a></li>
-        <li><a href="#practice" data-tab="portfolio">Case Portfolio</a></li>
-        <li><a href="#practice" data-tab="ethos">Practice Ethos</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="team.html">Meet the Team</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="location.html">Location</a></li>
+        <li><a href="pricing.html">Pricelist &amp; Finance</a></li>
+        <li><a href="portfolio.html">Case Portfolio</a></li>
+        <li><a href="ethos.html">Practice Ethos</a></li>
       </ul>
     </li>
   </ul>
@@ -437,93 +446,14 @@ html:not(.js) #intro{display:none}
       <p class="lead" style="max-width:64ch;margin-top:1.5rem">Clinical excellence requires an environment engineered for both focus and patient comfort. Our practice is designed as a harmonious, calm space where advanced technology operates quietly in the background. This considered, serene atmosphere minimizes clinical anxiety and provides a highly professional setting for complex prosthodontic and restorative procedures.</p>
     </div>
     <div class="reveal d1">
-      <div class="tab-bar" role="tablist">
-        <button class="tab active" data-tab="about">About</button>
-        <button class="tab" data-tab="team">Meet the Team</button>
-        <button class="tab" data-tab="contact">Contact</button>
-        <button class="tab" data-tab="location">Location</button>
-        <button class="tab" data-tab="pricing">Pricelist &amp; Finance</button>
-        <button class="tab" data-tab="portfolio">Case Portfolio</button>
-        <button class="tab" data-tab="ethos">Practice Ethos</button>
-      </div>
-
-      <div class="pane active" id="pane-about">
-        <p class="lead">Smile Architects is a smile-design dental clinic opening in Kavála, Greece, in summer 2027 — founded on the belief that a smile is designed before it is built.</p>
-        <p>Across three surgeries, we bring together the latest digital and aesthetic dentistry with the craft of the hand. Every treatment — from a single ceramic veneer to a full-arch implant rehabilitation — begins as a blueprint, mapped to your face, previewed digitally, and executed to the millimetre. One philosophy runs through all of it: precision, artistry, and a restoration that looks and lasts like nature intended.</p>
-      </div>
-
-      <div class="pane" id="pane-team">
-        <h3>Dr. Athanasios &ldquo;Thanos&rdquo; Tsiakyroudis</h3>
-        <span class="role">Founder · Prosthodontist &amp; Implant Dentist</span>
-        <p class="lead" style="margin-top:1.2rem">A prosthodontically trained implant dentist with over a decade of clinical experience across private and NHS practices in the UK. His postgraduate Master&rsquo;s at the UCL Eastman Dental Institute underpins a restorative-led approach to complex rehabilitation, with a particular focus on implantology, full-arch reconstruction and bone and soft-tissue augmentation.</p>
-        <p>A member of the ITI and the BSSPD, with extensive training in All-on-4, advanced augmentation and fully digital workflows, Thanos is committed to evidence-based, aesthetically driven dentistry delivered to a consistently high standard.</p>
-        <div class="dl">
-          <div><span class="k">Education</span><span>DDS, Aristotle University of Thessaloniki (2014) · MSc Prosthodontics, UCL Eastman Dental Institute · PgDip Implant Dentistry</span></div>
-          <div><span class="k">Registration</span><span>GDC No. 261192 · Greek Dental Registration</span></div>
-          <div><span class="k">Memberships</span><span>International Team for Implantology (ITI) · British Society for the Study of Prosthetic Dentistry (BSSPD)</span></div>
-          <div><span class="k">Focus</span><span>Surgical implantology · Full-arch (All-on-X) · Digital Smile Design · Aesthetic veneers &amp; bonding · Full-mouth rehabilitation · Conscious sedation</span></div>
-          <div><span class="k">Languages</span><span>Greek · English · German</span></div>
-        </div>
-        <p class="team-note">More of the team to be announced as we approach opening.</p>
-      </div>
-
-      <div class="pane" id="pane-contact">
-        <p class="lead">We&rsquo;d love to hear from you. The clinic opens in summer 2027 — register your interest now to be first in line for a consultation.</p>
-        <div class="dl">
-          <div><span class="k">Email</span><span>hello@smile-architects.online</span></div>
-          <div><span class="k">Phone</span><span>To be announced</span></div>
-          <div><span class="k">Instagram</span><span>@smilearchitects</span></div>
-          <div><span class="k">Studio</span><span>Kavála, Greece</span></div>
-        </div>
-        <a href="#waitlist" class="btn btn-fill" style="margin-top:1.6rem">Register your interest</a>
-        <p class="soft-note">Contact details are placeholders — to be confirmed before opening.</p>
-      </div>
-
-      <div class="pane" id="pane-location">
-        <p class="lead">A modern three-surgery studio in the heart of Kavála, East Macedonia &amp; Thrace.</p>
-        <div class="dl">
-          <div><span class="k">Clinic</span><span>Smile Architects Dental Clinic</span></div>
-          <div><span class="k">Address</span><span>Kavála, Greece — full address confirmed closer to opening</span></div>
-          <div><span class="k">Coordinates</span><span>40.94° N / 24.41° E</span></div>
-          <div><span class="k">Getting here</span><span>Central and easily reached from the city and the wider region. Directions and a map to follow.</span></div>
-        </div>
-      </div>
-
-      <div class="pane" id="pane-pricing">
-        <p class="lead">Clear, honest pricing. The figures below are indicative examples and will be confirmed before opening.</p>
-        <div class="price-list">
-          <div class="price-row"><span>Ceramic veneer — per tooth</span><span class="amt">from €400*</span></div>
-          <div class="price-row"><span>Single implant &amp; ceramic crown</span><span class="amt">from €1,600*</span></div>
-          <div class="price-row"><span>Full-arch implant bridge — per arch</span><span class="amt">from €7,000*</span></div>
-          <div class="price-row"><span>Complete smile makeover</span><span class="amt">On consultation</span></div>
-        </div>
-        <p class="soft-note">*Indicative example figures — to be finalised.</p>
-        <h4>Finance</h4>
-        <p>We plan to offer flexible, staged payment options so that treatment is manageable and never rushed. Full details will be available at launch.</p>
-      </div>
-
-      <div class="pane" id="pane-portfolio">
-        <p class="lead">Our case portfolio is in the making. As we open, this gallery will showcase real, consented before-and-after transformations — veneers, full-arch rehabilitations and complete smile makeovers, each planned and built in-house.</p>
-        <div class="portfolio-grid">
-          <div class="case-tile"><span>Veneers</span><span class="soon">Coming soon</span></div>
-          <div class="case-tile"><span>Full-arch</span><span class="soon">Coming soon</span></div>
-          <div class="case-tile"><span>Single implant</span><span class="soon">Coming soon</span></div>
-          <div class="case-tile"><span>Smile makeover</span><span class="soon">Coming soon</span></div>
-          <div class="case-tile"><span>Composite bonding</span><span class="soon">Coming soon</span></div>
-          <div class="case-tile"><span>Full-mouth</span><span class="soon">Coming soon</span></div>
-        </div>
-        <p class="soft-note">Real patient cases will be published, with consent, from summer 2027.</p>
-      </div>
-
-      <div class="pane" id="pane-ethos">
-        <p class="lead">We treat the smile as a discipline of design. Our ethos rests on a few principles.</p>
-        <div class="ethos-list">
-          <div><span class="k">01 — Design first</span><p>Every smile is planned digitally and previewed before treatment begins. You see and approve the result before we start.</p></div>
-          <div><span class="k">02 — Precision over speed</span><p>Work is executed to the millimetre, by hand, with the best materials — never rushed.</p></div>
-          <div><span class="k">03 — Honesty &amp; evidence</span><p>We recommend only what is right for you, grounded in current evidence, and explain every option clearly.</p></div>
-          <div><span class="k">04 — Aesthetics that last</span><p>A restoration should look natural, feel like your own, and stand the test of time.</p></div>
-          <div><span class="k">05 — Comfort &amp; care</span><p>From consultation to final polish, your experience matters as much as the outcome.</p></div>
-        </div>
+            <div class="practice-grid stagger">
+        <a class="practice-card" href="about.html"><span class="pn">01</span><h3>About</h3><p>Who we are and the design-first philosophy behind the clinic.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="team.html"><span class="pn">02</span><h3>Meet the Team</h3><p>Dr. Athanasios Tsiakyroudis — background, training and focus.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="contact.html"><span class="pn">03</span><h3>Contact</h3><p>How to reach us and register your interest.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="location.html"><span class="pn">04</span><h3>Location</h3><p>Where to find the studio in Kavála.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="pricing.html"><span class="pn">05</span><h3>Pricelist &amp; Finance</h3><p>Indicative pricing and payment options.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="portfolio.html"><span class="pn">06</span><h3>Case Portfolio</h3><p>Before-and-after transformations — coming at launch.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="ethos.html"><span class="pn">07</span><h3>Practice Ethos</h3><p>The principles that guide our work.</p><span class="go">Open page →</span></a>
       </div>
     </div>
   </div>
