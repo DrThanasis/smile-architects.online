@@ -791,6 +791,7 @@ try{
     var sec=document.getElementById('implant');
     if(sec){ var r=sec.getBoundingClientRect(), total=r.height-innerHeight; var pr=total>0?Math.max(0,Math.min(1,-r.top/total)):0; applyTooth(pr); } else { gTooth=0; }
   }
+  size(); build();
   addEventListener('resize',function(){ size(); },{passive:true});
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('mousemove',function(e){ mx=e.clientX*DPR; my=e.clientY*DPR; },{passive:true});
