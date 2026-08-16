@@ -295,7 +295,7 @@ html:not(.js) #intro{display:none}
 <nav class="nav" id="nav">
   <a href="#top" class="brand"><img class="brand-logo" src="logo-sketch.jpg" alt="Smile Architects logo">Smile Architects</a>
   <ul class="nav-links">
-    <li><a href="#method">The Method</a></li>
+    <li><a href="#tools">The Method</a></li>
     <li><a href="#implant">The Implant</a></li>
     <li><a href="#craft">The Craft</a></li>
     <li><a href="#architect">The Architect</a></li>
@@ -326,7 +326,7 @@ html:not(.js) #intro{display:none}
       <p class="lead reveal d2" style="max-width:52ch">A smile-design studio where the latest <strong>digital and aesthetic dentistry</strong> meets the craft of the hand. Every smile makeover — ceramic veneers, full-arch restorations and implant work — is planned on screen and mapped to your face, then built in ceramic to the millimetre. Opening summer 2027 in Kavála.</p>
       <div class="hero-btns reveal d3">
         <a href="#waitlist" class="btn btn-fill">Register your interest</a>
-        <a href="#method" class="btn btn-line">See the method</a>
+        <a href="#tools" class="btn btn-line">See the method</a>
       </div>
     </div>
   </div>
@@ -338,7 +338,7 @@ html:not(.js) #intro{display:none}
 <section class="section alt" id="method">
   <div class="wrap">
     <div class="method-head reveal">
-      <span class="ey">Fig. 01 — The Method</span>
+      <span class="ey">Fig. 01 — Smile Design</span>
       <h2 class="h-sec">Every smile begins as a <em>drawing.</em></h2>
       <div class="rule"></div>
       <p class="lead" style="max-width:60ch">Our clinical protocol is strictly rooted in the exacting standards of the UCL Eastman Dental Institute, integrating advanced biomechanical principles with evidence-based science. By meticulously managing every restorative parameter, we ensure complex rehabilitations achieve uncompromising structural integrity and seamless integration. This analytical approach guarantees that maximum functional predictability is always balanced with optimal aesthetic outcomes.</p>
@@ -367,9 +367,10 @@ html:not(.js) #intro{display:none}
   <div class="morph-sticky">
     <div class="morph-labels">
       <div class="inner">
-        <span class="ey">Fig. 01b — Under the Lens</span>
+        <span class="ey">Fig. 02 — The Method</span>
         <h2 class="h-sec">Precision,<br>under the <em>lens.</em></h2>
         <p class="lead">Prosthodontics is a discipline of magnification. We work under the lens — from loupes to the microscope — refining every margin, contact and contour at a scale the naked eye cannot resolve. Grounded in postgraduate prosthodontic training at the UCL Eastman Dental Institute and paired with today’s digital tools — intraoral scanning, CBCT, coDiagnostiX planning and CAD/CAM design — this precision lets us plan and build complex restorations to the finest tolerances.</p>
+        <p class="lead">From intraoral scanning and CBCT to coDiagnostiX-guided planning and CAD/CAM milling, the pathway is fully digital, measured and repeatable — so the smile we design is the smile we deliver.</p>
         <div class="morph-progress"><i id="toolsBar"></i></div>
       </div>
     </div>
@@ -852,7 +853,7 @@ try{
       var t=brand.getBoundingClientRect(), s=mark.getBoundingClientRect();
       var scale=Math.max(0.07, t.height/s.height);
       var tx=(t.left+t.width/2)-(s.left+s.width/2), ty=(t.top+t.height/2)-(s.top+s.height/2);
-      mark.style.transition='transform 1.7s cubic-bezier(.45,.05,.2,1),opacity .6s ease 1.15s';
+      mark.style.transition='transform 1.7s cubic-bezier(.4,0,.15,1),opacity .3s ease 1.5s';
       mark.style.transform='translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+scale.toFixed(3)+')';
       mark.style.opacity='0';
     }catch(e){}
