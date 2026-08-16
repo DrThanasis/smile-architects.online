@@ -110,6 +110,7 @@ img,video{display:block;max-width:100%}
 
 /* TOOTH → IMPLANT MORPH */
 .morph-sec{height:500vh;background:transparent;position:relative}
+#tools{height:360vh}
 .morph-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 #morphCv{position:absolute;inset:0;width:100%;height:100%}
 .morph-labels{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;padding:0 3rem}
@@ -210,12 +211,13 @@ html:not(.js) #intro{display:none}
   .foot-grid{flex-direction:column}
   .pw{transform:none!important}
   .morph-sec{height:130vh}
+  #tools{height:130vh}
   .morph-sticky{align-items:flex-end;padding-bottom:6vh}
   .morph-labels{padding:0 1.4rem}
   .morph-labels .inner{max-width:100%;text-align:center}
   .morph-labels .h-sec{font-size:2rem}
   .morph-progress{margin-left:auto;margin-right:auto}
-  #morphDesc{display:none}
+  .morph-labels .lead{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important}
@@ -356,6 +358,20 @@ html:not(.js) #intro{display:none}
       <div class="mstep"><span class="n">Step 01</span><div class="mt">Draw</div><p class="md">A digital design mapped to your face and features.</p></div>
       <div class="mstep"><span class="n">Step 02</span><div class="mt">Preview</div><p class="md">See and approve your smile before treatment begins.</p></div>
       <div class="mstep"><span class="n">Step 03</span><div class="mt">Build</div><p class="md">Crafted by hand in porcelain, matched to nature.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIGITAL TOOLS (MICROSCOPE MORPH) -->
+<section class="morph-sec" id="tools">
+  <div class="morph-sticky">
+    <div class="morph-labels">
+      <div class="inner">
+        <span class="ey">Fig. 01b — Under the Lens</span>
+        <h2 class="h-sec">Precision,<br>under the <em>lens.</em></h2>
+        <p class="lead">Prosthodontics is a discipline of magnification. We work under the lens — from loupes to the microscope — refining every margin, contact and contour at a scale the naked eye cannot resolve. Grounded in postgraduate prosthodontic training at the UCL Eastman Dental Institute and paired with today’s digital tools — intraoral scanning, CBCT, coDiagnostiX planning and CAD/CAM design — this precision lets us plan and build complex restorations to the finest tolerances.</p>
+        <div class="morph-progress"><i id="toolsBar"></i></div>
+      </div>
     </div>
   </div>
 </section>
@@ -587,9 +603,9 @@ try{
   if(!cv || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var ctx=cv.getContext('2d'), W,H, DPR=Math.min(2,window.devicePixelRatio||1);
   var mobile=innerWidth<768; var N=mobile?340:900;
-  var P=new Array(N), tooth,imp,idepth, g=0, m=0, spd=1, time=0, titleState=-1;
+  var P=new Array(N), tooth,imp,idepth,micro, gTooth=0, gMicro=0, m=0, spd=1, time=0, titleState=-1;
   var mx=-9999, my=-9999, MR=190*DPR, MR2=MR*MR;
-  var playing=false, mt=0;
+  var playingTooth=false, mtTooth=0, playingMicro=false, mtMicro=0;
 
   function size(){ W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
   function sampleShape(fn){
@@ -621,6 +637,21 @@ try{
     x.bezierCurveTo(152*u,298*u,162*u,250*u,160*u,205*u);
     x.bezierCurveTo(158*u,175*u,150*u,160*u,150*u,120*u);
     x.closePath(); x.fill();
+  }
+  function drawMicroscope(x,S){ var u=S/440;
+    function P(a){ x.beginPath(); x.moveTo(a[0]*u,a[1]*u); for(var i=2;i<a.length;i+=2) x.lineTo(a[i]*u,a[i+1]*u); x.closePath(); x.fill(); }
+    function E(cx,cy,rx,ry){ x.beginPath(); x.ellipse(cx*u,cy*u,rx*u,ry*u,0,0,6.2832); x.fill(); }
+    P([95,398,345,398,342,372,312,356,150,356,120,372]);
+    E(142,280,30,30);
+    P([158,356,158,205,166,165,196,144,250,142,250,175,206,180,190,210,190,300,186,356]);
+    P([214,162,150,108,130,132,196,186]);
+    E(143,119,19,19);
+    x.fillRect(210*u,172*u,40*u,68*u);
+    E(237,246,35,16);
+    P([214,258,224,258,221,292,217,292]);
+    P([232,258,242,258,239,298,235,298]);
+    P([250,256,260,256,256,286,252,286]);
+    x.fillRect(158*u,306*u,148*u,20*u);
   }
   function drawImplant(x,S){ var u=S/420, cx=210*u, top=98*u, bot=340*u, rTop=38*u, rBot=12*u, T=8, i,f,y,r;
     x.fillRect(cx-rTop*0.72, top-15*u, rTop*1.44, 15*u);
@@ -671,6 +702,7 @@ try{
     var im=buildImplant(); imp=im.pts; idepth=im.depth; normalize(imp);
     var md=0.0001,ii; for(ii=0;ii<N;ii++) if(Math.abs(idepth[ii])>md) md=Math.abs(idepth[ii]);
     for(ii=0;ii<N;ii++) idepth[ii]/=md;
+    micro=sampleShape(drawMicroscope); normalize(micro);
     for(var i=0;i<N;i++){ var hx=Math.random()*W, hy=Math.random()*H;
       P[i]={hx:hx,hy:hy,vx:(Math.random()-.5)*.11*DPR,vy:(Math.random()-.5)*.11*DPR,ph:Math.random()*6.28,r:(Math.random()*1.4+.6)*DPR,a:Math.random()*.4+.2,ox:0,oy:0,x:hx,y:hy}; }
   }
@@ -678,8 +710,12 @@ try{
   var LINKb=118*DPR;
   function frame(){
     time+=0.016;
-    if(mobile){ if(playing){ mt+=0.016/12; if(mt>=1) mt=0; } else { mt=0; } applyPr(mt); }
+    if(mobile){
+      if(playingMicro){ mtMicro+=0.016/12; if(mtMicro>=1) mtMicro=0; } else { mtMicro=0; } applyMicro(mtMicro);
+      if(playingTooth){ mtTooth+=0.016/12; if(mtTooth>=1) mtTooth=0; } else { mtTooth=0; } applyTooth(mtTooth);
+    }
     ctx.clearRect(0,0,W,H);
+    var useMicro = gMicro>gTooth, g = useMicro?gMicro:gTooth;
     var cx=W*(mobile?0.5:0.60), cy=H*(mobile?0.42:0.52), sc=Math.min(W,H)*(mobile?0.5:0.64);
     var ep = m<0.5 ? 2*m*m : 1-Math.pow(-2*m+2,2)/2;
     var i,p,sx,sy,txp,typ, drift=g<0.99?1:0;
@@ -691,8 +727,13 @@ try{
         if(p.hx<0)p.hx=W; else if(p.hx>W)p.hx=0;
         if(p.hy<0)p.hy=H; else if(p.hy>H)p.hy=0;
       }
-      sx=cx+(tooth[i*2]+(imp[i*2]-tooth[i*2])*ep)*sc + Math.sin(time*0.7+i*0.4)*0.5*DPR;
-      sy=cy+(tooth[i*2+1]+(imp[i*2+1]-tooth[i*2+1])*ep)*sc + Math.cos(time*0.6+i*0.5)*0.5*DPR;
+      if(useMicro){
+        sx=cx+micro[i*2]*sc + Math.sin(time*0.7+i*0.4)*0.5*DPR;
+        sy=cy+micro[i*2+1]*sc + Math.cos(time*0.6+i*0.5)*0.5*DPR;
+      } else {
+        sx=cx+(tooth[i*2]+(imp[i*2]-tooth[i*2])*ep)*sc + Math.sin(time*0.7+i*0.4)*0.5*DPR;
+        sy=cy+(tooth[i*2+1]+(imp[i*2+1]-tooth[i*2+1])*ep)*sc + Math.cos(time*0.6+i*0.5)*0.5*DPR;
+      }
       txp=p.hx+(sx-p.hx)*g; typ=p.hy+(sy-p.hy)*g;
       var desx=0,desy=0,nb=0;
       if(mx>-9000){ var dxm=mx-p.x, dym=my-p.y, dm2=dxm*dxm+dym*dym;
@@ -701,7 +742,7 @@ try{
       txp+=p.ox; typ+=p.oy;
       p.x+=(txp-p.x)*0.12; p.y+=(typ-p.y)*0.12;
       var tw=p.a*(0.72+0.28*Math.sin(time*1.4+p.ph))*(1+nb*1.5);
-      var d01=(idepth[i]+1)*0.5, factor=(1-m)+(0.35+0.65*d01)*m, rr=p.r*((1-m)+(0.85+0.35*d01)*m)*(1+nb*0.55);
+      var d01=(idepth[i]+1)*0.5, factor=useMicro?1:((1-m)+(0.35+0.65*d01)*m), rr=p.r*(useMicro?1:((1-m)+(0.85+0.35*d01)*m))*(1+nb*0.55);
       ctx.fillStyle='rgba(47,79,124,'+(tw*factor)+')';
       ctx.fillRect(p.x-rr*0.5,p.y-rr*0.5,rr*1.3,rr*1.3);
     }
@@ -720,13 +761,21 @@ try{
     }
     requestAnimationFrame(frame);
   }
-
-  function applyPr(pr){
-    if(pr<=0.05||pr>=0.99) g=0;
-    else if(pr<0.27) g=(pr-0.05)/0.22;     /* gather: stars -> molar */
-    else if(pr>0.80) g=(0.99-pr)/0.19;     /* slow disperse: implant -> stars */
-    else g=1;
-    if(g<0)g=0; if(g>1)g=1;
+  function applyMicro(pr){
+    var gg;
+    if(pr<=0.06||pr>=0.98) gg=0;
+    else if(pr<0.32) gg=(pr-0.06)/0.26;
+    else if(pr>0.80) gg=(0.98-pr)/0.18;
+    else gg=1;
+    gMicro=Math.max(0,Math.min(1,gg));
+    var b=document.getElementById('toolsBar'); if(b) b.style.width=(Math.max(0,Math.min(1,(pr-0.06)/0.9))*100)+'%';
+  }
+  function applyTooth(pr){
+    if(pr<=0.05||pr>=0.99) gTooth=0;
+    else if(pr<0.27) gTooth=(pr-0.05)/0.22;
+    else if(pr>0.80) gTooth=(0.99-pr)/0.19;
+    else gTooth=1;
+    if(gTooth<0)gTooth=0; if(gTooth>1)gTooth=1;
     m = pr<0.43 ? 0 : (pr>0.64 ? 1 : (pr-0.43)/0.21);
     var bar=document.getElementById('morphBar'); if(bar) bar.style.width=(Math.max(0,Math.min(1,(pr-0.05)/0.9))*100)+'%';
     var st = m<0.5?0:1;
@@ -736,16 +785,18 @@ try{
     var max=document.documentElement.scrollHeight-innerHeight, sp=max>0?Math.min(1,scrollY/max):0;
     spd=1+sp*2.2;
     if(mobile) return;
+    var tsec=document.getElementById('tools');
+    if(tsec){ var tr=tsec.getBoundingClientRect(), tt=tr.height-innerHeight; var tp=tt>0?Math.max(0,Math.min(1,-tr.top/tt)):0; applyMicro(tp); } else { gMicro=0; }
     var sec=document.getElementById('implant');
-    if(sec){ var r=sec.getBoundingClientRect(), total=r.height-innerHeight; var pr = total>0 ? Math.max(0,Math.min(1,-r.top/total)) : 0; applyPr(pr); }
-    else { g=0; }
+    if(sec){ var r=sec.getBoundingClientRect(), total=r.height-innerHeight; var pr=total>0?Math.max(0,Math.min(1,-r.top/total)):0; applyTooth(pr); } else { gTooth=0; }
   }
-
-  size(); build();
   addEventListener('resize',function(){ size(); },{passive:true});
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('mousemove',function(e){ mx=e.clientX*DPR; my=e.clientY*DPR; },{passive:true});
-  if(mobile){ try{ var io2=new IntersectionObserver(function(es){ es.forEach(function(e){ playing=e.isIntersecting; }); },{threshold:0.12}); var s2=document.getElementById('implant'); if(s2) io2.observe(s2); }catch(e){} }
+  if(mobile){
+    try{ var io2=new IntersectionObserver(function(es){ es.forEach(function(e){ playingTooth=e.isIntersecting; }); },{threshold:0.12}); var s2=document.getElementById('implant'); if(s2) io2.observe(s2); }catch(e){}
+    try{ var io3=new IntersectionObserver(function(es){ es.forEach(function(e){ playingMicro=e.isIntersecting; }); },{threshold:0.12}); var s3=document.getElementById('tools'); if(s3) io3.observe(s3); }catch(e){}
+  }
   onScroll(); frame();
 })();
 }catch(e){}
@@ -792,7 +843,7 @@ try{
   if(seen){ if(intro.parentNode) intro.parentNode.removeChild(intro); document.documentElement.style.overflow=''; return; }
   try{ sessionStorage.setItem('sa_intro','1'); }catch(e){}
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){ if(intro.parentNode) intro.parentNode.removeChild(intro); return; }
-  var mark=document.getElementById('introMark'), iv=document.getElementById('introVideo'), brand=document.querySelector('.brand'), done=false;
+  var mark=document.getElementById('introMark'), iv=document.getElementById('introVideo'), brand=document.querySelector('.brand-logo'), done=false;
   document.documentElement.style.overflow='hidden';
   function endIntro(){
     if(done) return; done=true;
