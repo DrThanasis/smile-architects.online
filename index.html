@@ -715,7 +715,7 @@ try{
     if(mx>-9000){ tgx=Math.max(-1,Math.min(1,(mx-lxp)/(sc*0.55))); tgy=Math.max(-1,Math.min(1,(my-lyp)/(sc*0.55))); }
     gzx+=(tgx-gzx)*0.055; gzy+=(tgy-gzy)*0.055;
 
-    var R=lensRI, w=0.66*R, A=0.38*R, B=0.27*R, IR=0.31*R, PR=0.12*R, o=blink,
+    var R=lensRI, w=0.66*R, A=0.38*R, B=0.27*R, IR=0.31*R, PR=0.06*R, o=blink,
         gx=gzx*0.11*R, gy=gzy*0.09*R, iyy=-0.02*R+gy-(1-o)*0.42*R, k,x,y,u,v,uy,ly,e;
     function lidU(px){ e=1-(px/w)*(px/w); if(e<0)e=0; e=Math.pow(e,0.62); return -A*o*e+0.03*R*(1-o)*e; }
     function lidL(px){ e=1-(px/w)*(px/w); if(e<0)e=0; return B*(0.22+0.78*o)*Math.pow(e,0.95); }
