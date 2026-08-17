@@ -918,7 +918,7 @@ try{
     iv.addEventListener('ended', endIntro);
     iv.addEventListener('error', function(){ setTimeout(endIntro,200); });
     var pr=iv.play(); if(pr&&pr.catch){ pr.catch(function(){ setTimeout(endIntro,250); }); }
-    setTimeout(endIntro, 10000);
+    setTimeout(endIntro, 12500);   /* safety fallback — just past the 11.875s trimmed video so its own 'ended' event drives the transition */
   } else { endIntro(); }
   var sk=document.getElementById('introSkip'); if(sk) sk.addEventListener('click', endIntro);
 })();
