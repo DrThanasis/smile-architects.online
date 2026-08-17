@@ -693,11 +693,9 @@ try{
     for(i=0;i<nCol;i++) add((i%2?1:-1)*0.132, -0.06+Math.random()*0.09, 0);                                         /* collar walls */
     for(i=0;i<nPlat;i++){ var tp=i/nPlat*TAU, rp=0.150*((i%2)?0.66:1); add(rp*Math.cos(tp), 0.03, rp*Math.sin(tp)); } /* platform ring */
     for(i=0;i<nEdge;i++){ var yf=0.03+Math.random()*FL; add((i%2?1:-1)*core(yf), yf, 0); }                          /* cone silhouette */
-    var nRings=9, perRing=Math.floor(nThread/nRings);                                                                /* thread: discrete stacked rings, not a helix */
-    for(var rg=0; rg<nRings; rg++){
-      var yr=0.03+(rg+0.5)/nRings*FL, rr=core(yr)*1.30;
-      for(i=0;i<perRing;i++){ var thr=(i/perRing)*TAU + rg*0.35; add(rr*Math.cos(thr), yr, rr*Math.sin(thr)); }
-    }
+    var THREAD_TURNS=6;                                                                                              /* thread: one continuous tapered helix — a real screw, not stacked rings */
+    for(i=0;i<nThread;i++){ var t=i/nThread, yh=0.03+t*FL, thh=t*THREAD_TURNS*TAU, rh=core(yh)*1.30;
+      add(rh*Math.cos(thh), yh, rh*Math.sin(thh)); }
     guard=0;
     while(idx<N && guard<N*160){ guard++;                                                                           /* sparse core, kept light so the rings stay crisp */
       var y3=0.03+Math.random()*FL, R3=core(y3)*0.7, x3=(Math.random()-0.5)*0.28;
