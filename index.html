@@ -113,7 +113,7 @@ img,video{display:block;max-width:100%}
 .mstep .md{color:var(--ink-2);font-size:.95rem;line-height:1.6}
 
 /* TOOTH → IMPLANT MORPH */
-.morph-sec{height:500vh;background:transparent;position:relative}
+.morph-sec{height:800vh;background:transparent;position:relative}
 #tools{height:360vh}
 .morph-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 #morphCv{position:absolute;inset:0;width:100%;height:100%}
@@ -620,7 +620,7 @@ try{
   var P=new Array(N), tooth,imp,idepth,micro, gTooth=0, gMicro=0, m=0, spd=1, time=0, titleState=-1;
   var normT=null;
   /* eye behind the lens — built from the same stars, blinks on its own clock */
-  var EYE_N=Math.max(34,Math.round(N*0.19)), eyeStart=N-EYE_N, eyePts=new Float32Array(EYE_N*2),
+  var EYE_N=Math.max(22,Math.round(N*0.12)), eyeStart=N-EYE_N, eyePts=new Float32Array(EYE_N*2),
       eyeRole=new Uint8Array(EYE_N), eyeU=new Float32Array(EYE_N), eyeV=new Float32Array(EYE_N),
       lensCX=0, lensCY=0, lensRI=0.12,
       blink=1, bPhase=0, bT=0, bWait=1.4+Math.random()*2.2, bDouble=false,
@@ -705,7 +705,7 @@ try{
     return {pts:out, depth:dep};
   }
   function buildEye(){
-    var nl=Math.round(EYE_N*0.40), nr=Math.round(EYE_N*0.26), nf=Math.round(EYE_N*0.16), npu=Math.round(EYE_N*0.10), k;
+    var nl=Math.round(EYE_N*0.46), nr=Math.round(EYE_N*0.24), nf=Math.round(EYE_N*0.08), npu=Math.round(EYE_N*0.06), k;
     for(k=0;k<EYE_N;k++){
       if(k<nl){ eyeRole[k]=0; eyeU[k]=(nl<2?0:(k/(nl-1))*2-1); eyeV[k]=(k%2===0)?-1:1; }            /* lids */
       else if(k<nl+nr){ eyeRole[k]=1; eyeU[k]=(k-nl)/nr*6.2832; eyeV[k]=1; }                        /* iris rim */
@@ -797,7 +797,7 @@ try{
         if(dm2<MR2){ var inf=(1-Math.sqrt(dm2)/MR)*(1-g); desx=dxm*inf*0.65; desy=dym*inf*0.65; nb=inf; } }
       p.ox+=(desx-p.ox)*0.038; p.oy+=(desy-p.oy)*0.038;
       txp+=p.ox; typ+=p.oy;
-      var fol=(useMicro&&i>=eyeStart)?(0.12+0.34*g):0.12;   /* the eye needs a faster follow or the blink smears */
+      var fol=(useMicro&&i>=eyeStart)?(0.09+0.30*g):0.06;   /* weightier easing so fast scrolls feel smooth, not snappy */
       p.x+=(txp-p.x)*fol; p.y+=(typ-p.y)*fol;
       var tw=p.a*(0.72+0.28*Math.sin(time*1.4+p.ph))*(1+nb*1.5);
       var isEye=useMicro&&i>=eyeStart;
@@ -822,20 +822,20 @@ try{
   }
   function applyMicro(pr){
     var gg;
-    if(pr<=0.06||pr>=0.98) gg=0;
-    else if(pr<0.32) gg=(pr-0.06)/0.26;
-    else if(pr>0.80) gg=(0.98-pr)/0.18;
+    if(pr<=0.04||pr>=0.99) gg=0;
+    else if(pr<0.18) gg=(pr-0.04)/0.14;
+    else if(pr>0.90) gg=(0.99-pr)/0.09;
     else gg=1;
     gMicro=Math.max(0,Math.min(1,gg));
     var b=document.getElementById('toolsBar'); if(b) b.style.width=(Math.max(0,Math.min(1,(pr-0.06)/0.9))*100)+'%';
   }
   function applyTooth(pr){
-    if(pr<=0.05||pr>=0.99) gTooth=0;
-    else if(pr<0.27) gTooth=(pr-0.05)/0.22;
-    else if(pr>0.80) gTooth=(0.99-pr)/0.19;
+    if(pr<=0.04||pr>=0.99) gTooth=0;
+    else if(pr<0.16) gTooth=(pr-0.04)/0.12;
+    else if(pr>0.90) gTooth=(0.99-pr)/0.09;
     else gTooth=1;
     if(gTooth<0)gTooth=0; if(gTooth>1)gTooth=1;
-    m = pr<0.43 ? 0 : (pr>0.64 ? 1 : (pr-0.43)/0.21);
+    m = pr<0.28 ? 0 : (pr>0.78 ? 1 : (pr-0.28)/0.50);
     var bar=document.getElementById('morphBar'); if(bar) bar.style.width=(Math.max(0,Math.min(1,(pr-0.05)/0.9))*100)+'%';
     var st = m<0.5?0:1;
     if(st!==titleState){ titleState=st; }   /* headline is now static — "Rooted in Science." no longer swaps mid-scroll */
