@@ -149,49 +149,55 @@ img,video{display:block;max-width:100%}
 .mstep .md{color:var(--ink-2);font-size:.95rem;line-height:1.6}
 
 /* TOOTH → IMPLANT MORPH */
-/* ── PATIENT JOURNEY — pinned stage, five acts travelling horizontally ── */
-.journey{position:relative;height:560vh;background:transparent}
-.jrn-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:8.5rem 0 6.5rem}
-.jrn-head{position:absolute;top:9rem;left:0;right:0;display:flex;align-items:baseline;justify-content:space-between;padding:0 3rem;max-width:1240px;margin:0 auto;z-index:3}
-.jrn-count{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.16em;color:var(--ink-3)}
-.jrn-count i{font-style:normal;color:var(--blue);font-size:1.05rem}
-.jrn-thread{position:absolute;top:50%;left:0;width:500%;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 8%,var(--line-2) 92%,transparent);will-change:transform;z-index:0}
-.jrn-viewport{position:relative;flex:1;display:flex;align-items:center;overflow:hidden}
-.jrn-track{display:flex;flex:0 0 500%;width:500%;will-change:transform}
-.jrn-panel{width:20%;flex:0 0 20%;min-width:0;padding:0 max(3rem,calc((100vw - 1240px)/2));display:grid;grid-template-columns:.72fr 1fr;gap:3.2rem;align-items:center;max-width:none}
-.jrn-mark{will-change:transform,opacity}
+/* ── PATIENT JOURNEY ──
+   Base state is a plain, readable stack: if the script never runs (error, old
+   browser, reduced motion) the five acts still read as ordinary content.
+   The pinned horizontal stage only switches on once the rAF loop proves alive
+   and adds .jrn-live. ── */
+.journey{position:relative;background:transparent}
+.jrn-sticky{padding:5rem 0}
+.jrn-head,.jrn-rail,.jrn-thread{display:none}
+.jrn-panel{padding:3.5rem max(3rem,calc((100vw - 1240px)/2));display:grid;grid-template-columns:.72fr 1fr;gap:3.2rem;align-items:center}
 .jrn-n{font-family:'Manrope',sans-serif;font-weight:200;font-size:13rem;line-height:.82;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px var(--line-2);display:block}
 .jrn-act{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:1.1rem}
-.jrn-body{will-change:transform,opacity;min-width:0;max-width:36rem}
+.jrn-body{min-width:0;max-width:36rem}
 .jrn-tag{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:1.1rem}
 .jrn-h{font-family:'Manrope',sans-serif;font-weight:300;font-size:clamp(2.2rem,3.6vw,3.5rem);line-height:1.04;letter-spacing:-.03em;margin-bottom:1.5rem}
 .jrn-h em{font-style:normal;font-weight:600;color:var(--blue)}
-.jrn-h .ln{display:block;overflow:hidden}
-.jrn-h .ln>span{display:block;transform:translateY(105%);transition:transform .95s var(--ease)}
-.jrn-panel.on .jrn-h .ln>span{transform:translateY(0)}
-.jrn-h .ln:nth-child(2)>span{transition-delay:.09s}
-.jrn-h .ln:nth-child(3)>span{transition-delay:.18s}
-.jrn-p{color:var(--ink-2);font-weight:300;font-size:1.02rem;line-height:1.75;max-width:44ch;margin-bottom:1.8rem;opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease) .22s,transform .8s var(--ease) .22s}
-.jrn-panel.on .jrn-p{opacity:1;transform:none}
-.jrn-go{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:.55rem;opacity:0;transform:translateY(10px);transition:opacity .7s var(--ease) .34s,transform .7s var(--ease) .34s,gap .3s}
-.jrn-panel.on .jrn-go{opacity:1;transform:none}
+.jrn-h .ln{display:block}
+.jrn-p{color:var(--ink-2);font-weight:300;font-size:1.02rem;line-height:1.75;max-width:44ch;margin-bottom:1.8rem}
+.jrn-go{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);text-decoration:none;display:inline-flex;align-items:center;gap:.55rem;transition:gap .3s}
 .jrn-go:hover{gap:1rem}
-.jrn-rail{position:absolute;bottom:5rem;left:0;right:0;max-width:1240px;margin:0 auto;padding:0 3rem;z-index:3}
-.jrn-line{position:relative;height:1px;background:var(--line);margin-bottom:1rem}
-.jrn-line i{position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--blue);transition:width .12s linear}
-.jrn-ticks{display:flex;justify-content:space-between}
+.jrn-count{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.16em;color:var(--ink-3)}
+.jrn-count i{font-style:normal;color:var(--blue);font-size:1.05rem}
 .jrn-tick{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);background:none;border:0;padding:.2rem 0;cursor:pointer;transition:color .35s}
 .jrn-tick:hover{color:var(--ink-2)}
 .jrn-tick.on{color:var(--blue)}
-@media (prefers-reduced-motion: reduce){
-  .journey{height:auto}
-  .jrn-sticky{position:static;height:auto;padding:6rem 0}
-  .jrn-viewport{overflow:visible}
-  .jrn-track{display:block;width:100%;transform:none!important}
-  .jrn-panel{width:auto;padding:4rem 3rem;max-width:1240px;margin:0 auto}
-  .jrn-h .ln>span,.jrn-p,.jrn-go{transform:none!important;opacity:1!important}
-  .jrn-head,.jrn-rail,.jrn-thread{display:none}
-}
+
+/* --- live: pinned stage, five acts travelling horizontally --- */
+.journey.jrn-live{height:560vh}
+.jrn-live .jrn-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:8.5rem 0 6.5rem}
+.jrn-live .jrn-head{display:flex;position:absolute;top:9rem;left:0;right:0;align-items:baseline;justify-content:space-between;padding:0 3rem;max-width:1240px;margin:0 auto;z-index:3}
+.jrn-live .jrn-thread{display:block;position:absolute;top:50%;left:0;width:500%;height:1px;background:linear-gradient(90deg,transparent,var(--line-2) 8%,var(--line-2) 92%,transparent);will-change:transform;z-index:0;transition:top .7s var(--ease)}
+.jrn-live .jrn-viewport{position:relative;flex:1;display:flex;align-items:center;overflow:hidden}
+.jrn-live .jrn-track{display:flex;flex:0 0 500%;width:500%;will-change:transform}
+.jrn-live .jrn-panel{width:20%;flex:0 0 20%;min-width:0;padding:0 max(3rem,calc((100vw - 1240px)/2))}
+.jrn-live .jrn-mark{will-change:transform,opacity}
+.jrn-live .jrn-body{will-change:transform,opacity}
+.jrn-live .jrn-h{margin-bottom:2.6rem}
+.jrn-live .jrn-h .ln{overflow:hidden}
+.jrn-live .jrn-h .ln>span{display:block;transform:translateY(105%);transition:transform .95s var(--ease)}
+.jrn-live .jrn-h .ln:nth-child(2)>span{transition-delay:.09s}
+.jrn-live .jrn-h .ln:nth-child(3)>span{transition-delay:.18s}
+.jrn-live .jrn-panel.on .jrn-h .ln>span{transform:translateY(0)}
+.jrn-live .jrn-p{opacity:0;transform:translateY(14px);transition:opacity .8s var(--ease) .22s,transform .8s var(--ease) .22s}
+.jrn-live .jrn-panel.on .jrn-p{opacity:1;transform:none}
+.jrn-live .jrn-go{opacity:0;transform:translateY(10px);transition:opacity .7s var(--ease) .34s,transform .7s var(--ease) .34s,gap .3s}
+.jrn-live .jrn-panel.on .jrn-go{opacity:1;transform:none}
+.jrn-live .jrn-rail{display:block;position:absolute;bottom:5rem;left:0;right:0;max-width:1240px;margin:0 auto;padding:0 3rem;z-index:3}
+.jrn-line{position:relative;height:1px;background:var(--line);margin-bottom:1rem}
+.jrn-line i{position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--blue);transition:width .12s linear}
+.jrn-ticks{display:flex;justify-content:space-between}
 .morph-sec{height:800vh;background:transparent;position:relative}
 #tools{height:360vh}
 .morph-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
@@ -895,6 +901,7 @@ try{
   }
   function loop(){
     raf=0;
+    if(!sec.classList.contains('jrn-live')){ sec.classList.add('jrn-live'); read(); }  /* the stage only pins once this loop is proven alive */
     var d=tgt-cur;
     if(Math.abs(d)<0.0004) cur=tgt; else { cur+=d*0.14; raf=requestAnimationFrame(loop); }
 
@@ -922,8 +929,22 @@ try{
       for(i=0;i<n;i++) panels[i].classList.toggle('on', i===act);
       for(i=0;i<ticks.length;i++) ticks[i].classList.toggle('on', i===act);
       if(num) num.textContent=('0'+(act+1)).slice(-2);
+      placeThread();
     }
   }
+  /* park the rule in the gap between headline and copy, measured on the live act,
+     so it never cuts through a line of text at any window size */
+  function placeThread(){
+    if(!thread || live<0) return;
+    var pan=panels[live], h=pan.querySelector('.jrn-h'),
+        vp=thread.parentNode.getBoundingClientRect();
+    if(!h) return;
+    /* half the headline's bottom margin — read from the gap itself rather than the
+       paragraph's rect, which is still mid-entry when the act changes */
+    var gap=parseFloat(getComputedStyle(h).marginBottom)||0;
+    thread.style.top=(h.getBoundingClientRect().bottom-vp.top+gap/2).toFixed(1)+'px';
+  }
+
   ticks.forEach(function(b,i){
     b.addEventListener('click',function(){
       var span=sec.offsetHeight-innerHeight,
@@ -932,7 +953,7 @@ try{
     });
   });
   addEventListener('scroll',read,{passive:true});
-  addEventListener('resize',read);
+  addEventListener('resize',function(){ read(); placeThread(); });
   read(); loop();
 })();
 }catch(e){}
