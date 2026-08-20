@@ -708,6 +708,9 @@ try{
   var cv=document.getElementById('bg');
   if(!cv || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var ctx=cv.getContext('2d'), W,H, DPR=Math.min(2,window.devicePixelRatio||1);
+  /* the page renders at a fixed 1440 canvas, so a phone scales the whole field down;
+     touch devices get 3x stars (and matching link weight) so the constellations read */
+  var STAR=matchMedia('(hover:none) and (pointer:coarse)').matches?3:1;
   var N=900;   /* desktop only — mobile automation removed */
   var P=new Array(N), tooth,imp,idepth,micro, gTooth=0, gMicro=0, m=0, spd=1, time=0, titleState=-1;
   var normT=null;
@@ -853,7 +856,7 @@ try{
     lensCX=(155/440-0.5-normT.mx)*normT.s; lensCY=(150/440-0.5-normT.my)*normT.s; lensRI=(86/440)*normT.s;
     buildEye();
     for(var i=0;i<N;i++){ var hx=Math.random()*W, hy=Math.random()*H;
-      P[i]={hx:hx,hy:hy,vx:(Math.random()-.5)*.11*DPR,vy:(Math.random()-.5)*.11*DPR,ph:Math.random()*6.28,r:(Math.random()*1.4+.6)*DPR,a:Math.random()*.28+.12,ox:0,oy:0,x:hx,y:hy}; }
+      P[i]={hx:hx,hy:hy,vx:(Math.random()-.5)*.11*DPR,vy:(Math.random()-.5)*.11*DPR,ph:Math.random()*6.28,r:(Math.random()*1.4+.6)*DPR*STAR,a:Math.random()*.28+.12,ox:0,oy:0,x:hx,y:hy}; }
   }
 
   var LINKb=86*DPR;
@@ -899,7 +902,7 @@ try{
     }
     var LINK=LINKb*(1-0.5*g), LINK2=LINK*LINK, CELL=LINK||1, grid={},key,gx,gy,a,b,cell,k,q,dx,dy,d;
     for(i=0;i<N;i++){ p=P[i]; gx=(p.x/CELL)|0; gy=(p.y/CELL)|0; key=gx+'_'+gy; (grid[key]||(grid[key]=[])).push(i); }
-    ctx.lineWidth=.6*DPR;
+    ctx.lineWidth=.6*DPR*STAR;
     for(i=0;i<N;i++){
       p=P[i]; gx=(p.x/CELL)|0; gy=(p.y/CELL)|0;
       for(a=-1;a<=1;a++)for(b=-1;b<=1;b++){
