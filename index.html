@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1280">
+<meta name="viewport" content="width=1440">
 <title>Smile Architects — Dental Clinic · Kavala</title>
 <meta name="description" content="Smile Architects is a smile-design dental studio opening in Kavala, Greece in summer 2027 — ceramic veneers, full-arch restorations and complete smile transformations.">
 <script>document.documentElement.className += ' js';</script>
@@ -19,7 +19,7 @@
   --ease:cubic-bezier(.19,1,.22,1);
 }
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-width:1280px}
+body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-width:1440px}
 img,video{display:block;max-width:100%}
 
 #bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
@@ -57,14 +57,42 @@ img,video{display:block;max-width:100%}
 .plate .cap{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-top:.9rem;display:flex;justify-content:space-between;gap:1rem}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;transition:padding .4s,background .4s,border-color .4s;border-bottom:1px solid transparent}
-.nav.s{padding:1rem 3rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2.4rem;transition:padding .4s,background .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.s{padding:1rem 2.4rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:.5rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:3.84rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;line-height:1}
 .brand .spk{width:.8em;height:.8em}
 .brand-logo{width:120px;height:120px;object-fit:contain;display:block;mix-blend-mode:multiply}
-.nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
+.nav-links{display:flex;gap:.42rem;list-style:none;align-items:center}
 .nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--blue)}
+
+/* NAV PLATES — each item is a drawing plate: hairline box, blueprint fill that
+   sweeps up on hover, registration ticks that snap in at the corners */
+.nav-links>li{position:relative}
+.nav-links>li>a{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;
+  white-space:nowrap;font-size:.64rem;letter-spacing:.08em;
+  padding:.72rem .92rem;border:1px solid var(--line);border-radius:3px;
+  background:rgba(251,248,242,.42);
+  transition:color .4s var(--ease),border-color .4s var(--ease),transform .4s var(--ease),box-shadow .4s var(--ease)}
+.nav-links>li>a::before{content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,var(--blue-2) 0%,var(--blue) 100%);
+  transform:translateY(101%);transition:transform .48s var(--ease)}
+.nav-links>li::before{content:'';position:absolute;inset:-6px;pointer-events:none;opacity:0;z-index:2;
+  transform:scale(.86);transition:opacity .34s var(--ease),transform .34s var(--ease);
+  background:
+    linear-gradient(var(--blue-2),var(--blue-2)) left top/8px 1px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) left top/1px 8px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) right top/8px 1px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) right top/1px 8px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) left bottom/8px 1px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) left bottom/1px 8px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) right bottom/8px 1px no-repeat,
+    linear-gradient(var(--blue-2),var(--blue-2)) right bottom/1px 8px no-repeat}
+.nav-links>li:hover>a,.nav-links>li:focus-within>a{
+  color:var(--white);border-color:var(--blue);transform:translateY(-2px);box-shadow:0 12px 24px rgba(47,79,124,.18)}
+.nav-links>li:hover>a::before,.nav-links>li:focus-within>a::before{transform:translateY(0)}
+.nav-links>li:hover::before,.nav-links>li:focus-within::before{opacity:.85;transform:scale(1)}
+.nav-links>li>a:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 .nav-cta{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;background:var(--blue);color:var(--white);border-radius:3px;text-decoration:none;transition:background .3s,transform .3s}
 .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
 
@@ -249,7 +277,10 @@ html:not(.js) #intro{display:none}
 .nav-links .drop{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(16px);min-width:212px;background:rgba(245,240,231,.98);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:5px;padding:.45rem;list-style:none;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;box-shadow:0 16px 42px rgba(30,37,48,.13);z-index:90}
 .nav-links .has-drop:hover .drop,.nav-links .has-drop:focus-within .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(9px)}
 .nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.nav-links .drop a{position:relative;padding-left:1.85rem;transition:background .28s,color .28s}
+.nav-links .drop a::before{content:'';position:absolute;left:.8rem;top:50%;width:0;height:1px;background:var(--blue);transition:width .3s var(--ease)}
 .nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
+.nav-links .drop a:hover::before{width:9px}
 /* PRACTICE MENU CARDS */
 .practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:.5rem}
 .practice-card{background:rgba(245,240,231,.6);padding:2.2rem 2rem;text-decoration:none;display:flex;flex-direction:column;gap:.5rem;transition:background .35s,transform .35s}
