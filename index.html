@@ -198,8 +198,8 @@ img,video{display:block;max-width:100%}
 .jrn-line{position:relative;height:1px;background:var(--line);margin-bottom:1rem}
 .jrn-line i{position:absolute;left:0;top:-1px;height:3px;width:0;background:var(--blue);transition:width .12s linear}
 .jrn-ticks{display:flex;justify-content:space-between}
-.morph-sec{height:800vh;background:transparent;position:relative}
-#tools{height:360vh}
+.morph-sec{height:560vh;background:transparent;position:relative}
+#tools{height:300vh}
 .morph-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 #morphCv{position:absolute;inset:0;width:100%;height:100%}
 .morph-labels{position:relative;z-index:2;max-width:1240px;margin:0 auto;width:100%;padding:0 3rem}
@@ -813,6 +813,19 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(hover
     function clamp(v){ var m=limit(); return v<0?0:(v>m?m:v); }
     function write(v){ applied=Math.round(v); window.scrollTo(0,applied); }
     var tw=null;                                              /* timed tween used by anchors, so long jumps don't crawl */
+    /* Speed limit. The morphs are locked to scroll position, so a hard flick used to
+       throw the page past them before they could play. Inside these sections the page
+       itself refuses to travel faster than CAP px/frame — the animation is never
+       skipped, and normal wheel scrolling (~11px/frame) never touches the limit.
+       Anchor tweens are exempt so nav jumps stay quick. */
+    var CAP=26, HEAVY=null;
+    function heavy(y){
+      if(!HEAVY) HEAVY=[document.getElementById('tools'),document.getElementById('implant')];
+      for(var i=0;i<HEAVY.length;i++){ var el=HEAVY[i]; if(!el) continue;
+        var a=el.offsetTop, z=a+el.offsetHeight-innerHeight;
+        if(y>=a-60 && y<=z+60) return true; }
+      return false;
+    }
     function tick(){
       if(!running) return;                                    /* a key press hands control back to the browser */
       if(tw){
@@ -824,7 +837,13 @@ if(!matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(hover
       }
       var d=target-current;
       if(Math.abs(d)<0.4){ current=target; write(current); running=false; return; }
-      current+=d*EASE; write(current);
+      var step=d*EASE;
+      if(heavy(current)){
+        if(step>CAP) step=CAP; else if(step<-CAP) step=-CAP;
+        /* don't let a fling queue up seconds of playback behind it */
+        if(d>2400) target=current+2400; else if(d<-2400) target=current-2400;
+      }
+      current+=step; write(current);
       requestAnimationFrame(tick);
     }
     function start(){ if(!running){ running=true; requestAnimationFrame(tick); } }
@@ -1147,6 +1166,7 @@ try{
 
   var LINKb=86*DPR;
   function frame(){
+    onScroll();          /* sampled per frame so the morph is locked to the page, not to event timing */
     time+=0.016;
     ctx.clearRect(0,0,W,H);
     var useMicro = gMicro>gTooth, g = useMicro?gMicro:gTooth;
@@ -1178,8 +1198,7 @@ try{
         if(dm2<MR2){ var inf=(1-Math.sqrt(dm2)/MR)*(1-g); desx=dxm*inf*0.65; desy=dym*inf*0.65; nb=inf; } }
       p.ox+=(desx-p.ox)*0.038; p.oy+=(desy-p.oy)*0.038;
       txp+=p.ox; typ+=p.oy;
-      var fol=(useMicro&&i>=eyeStart)?(0.09+0.30*g):0.06;   /* weightier easing so fast scrolls feel smooth, not snappy */
-      p.x+=(txp-p.x)*fol; p.y+=(typ-p.y)*fol;
+      p.x=txp; p.y=typ;   /* no follow easing — the shape is wherever the scroll says it is, this frame */
       var tw=p.a*(0.72+0.28*Math.sin(time*1.4+p.ph))*(1+nb*1.5);
       var isEye=useMicro&&i>=eyeStart;
       var d01=(idepth[i]+1)*0.5, factor=useMicro?(isEye?(1-0.46*g):1):((1-m)+(0.35+0.65*d01)*m), rr=p.r*(useMicro?(isEye?(1-0.24*g):1):((1-m)+(0.85+0.35*d01)*m))*(1+nb*0.55);
@@ -1201,33 +1220,41 @@ try{
     }
     requestAnimationFrame(frame);
   }
+  var barEls={}, barVal={};
+  function setBar(id,v){
+    v=Math.max(0,Math.min(1,v))*100;
+    if(barVal[id]!==undefined && Math.abs(barVal[id]-v)<0.15) return;   /* per-frame sampling: don't thrash style */
+    barVal[id]=v;
+    if(!(id in barEls)) barEls[id]=document.getElementById(id);
+    if(barEls[id]) barEls[id].style.width=v.toFixed(2)+'%';
+  }
   function applyMicro(pr){
     var gg;
-    if(pr<=0.04||pr>=0.99) gg=0;
-    else if(pr<0.18) gg=(pr-0.04)/0.14;
-    else if(pr>0.90) gg=(0.99-pr)/0.09;
+    if(pr<=0.03||pr>=0.99) gg=0;
+    else if(pr<0.32) gg=(pr-0.03)/0.29;      /* assemble across a third of the section, not a tenth */
+    else if(pr>0.82) gg=(0.99-pr)/0.17;
     else gg=1;
     gMicro=Math.max(0,Math.min(1,gg));
-    var b=document.getElementById('toolsBar'); if(b) b.style.width=(Math.max(0,Math.min(1,(pr-0.06)/0.9))*100)+'%';
+    setBar('toolsBar',(pr-0.06)/0.9);
   }
   function applyTooth(pr){
-    if(pr<=0.04||pr>=0.99) gTooth=0;
-    else if(pr<0.16) gTooth=(pr-0.04)/0.12;
-    else if(pr>0.90) gTooth=(0.99-pr)/0.09;
+    if(pr<=0.03||pr>=0.99) gTooth=0;
+    else if(pr<0.24) gTooth=(pr-0.03)/0.21;  /* the tooth gathers over a longer run */
+    else if(pr>0.86) gTooth=(0.99-pr)/0.13;
     else gTooth=1;
     if(gTooth<0)gTooth=0; if(gTooth>1)gTooth=1;
-    m = pr<0.28 ? 0 : (pr>0.78 ? 1 : (pr-0.28)/0.50);
-    var bar=document.getElementById('morphBar'); if(bar) bar.style.width=(Math.max(0,Math.min(1,(pr-0.05)/0.9))*100)+'%';
+    m = pr<0.32 ? 0 : (pr>0.84 ? 1 : (pr-0.32)/0.52);
+    setBar('morphBar',(pr-0.05)/0.9);
     var st = m<0.5?0:1;
     if(st!==titleState){ titleState=st; }   /* headline is now static — "Rooted in Science." no longer swaps mid-scroll */
   }
+  var secTools=null, secImp=null, refs=false;
   function onScroll(){
+    if(!refs){ secTools=document.getElementById('tools'); secImp=document.getElementById('implant'); refs=true; }
     var max=document.documentElement.scrollHeight-innerHeight, sp=max>0?Math.min(1,scrollY/max):0;
     spd=1+sp*2.2;
-    var tsec=document.getElementById('tools');
-    if(tsec){ var tr=tsec.getBoundingClientRect(), tt=tr.height-innerHeight; var tp=tt>0?Math.max(0,Math.min(1,-tr.top/tt)):0; applyMicro(tp); } else { gMicro=0; }
-    var sec=document.getElementById('implant');
-    if(sec){ var r=sec.getBoundingClientRect(), total=r.height-innerHeight; var pr=total>0?Math.max(0,Math.min(1,-r.top/total)):0; applyTooth(pr); } else { gTooth=0; }
+    if(secTools){ var tr=secTools.getBoundingClientRect(), tt=tr.height-innerHeight; var tp=tt>0?Math.max(0,Math.min(1,-tr.top/tt)):0; applyMicro(tp); } else { gMicro=0; }
+    if(secImp){ var r=secImp.getBoundingClientRect(), total=r.height-innerHeight; var pr=total>0?Math.max(0,Math.min(1,-r.top/total)):0; applyTooth(pr); } else { gTooth=0; }
   }
   size(); build();
   addEventListener('resize',function(){ size(); },{passive:true});
