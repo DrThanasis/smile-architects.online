@@ -289,6 +289,74 @@ html:not(.js) #intro{display:none}
 .practice-card h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink)}
 .practice-card p{color:var(--ink-2);font-weight:300;font-size:.92rem;line-height:1.55;flex-grow:1}
 .practice-card .go{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+
+/* MOBILE TYPE SCALE — touch devices get 2x type (viewport width is fixed at 1440,
+   so breakpoints can't fire; pointer/hover media features detect the phone instead) */
+@media (hover:none) and (pointer:coarse){
+  body{font-size:34px}
+  .ey{font-size:1.32rem}
+  .h-display{font-size:clamp(5.8rem,14.8vw,12.8rem)}
+  .h-sec{font-size:clamp(4.2rem,9.4vw,7rem)}
+  .lead{font-size:clamp(2.1rem,2.7vw,2.4rem)}
+  .btn{font-size:1.44rem}
+  .plate .cap{font-size:1.2rem}
+  .brand{font-size:7.68rem}
+  .nav-links a{font-size:1.36rem}
+  .nav-links>li>a{font-size:1.28rem}
+  .nav-cta{font-size:1.32rem}
+  .hero-coords{font-size:1.2rem}
+  .hero-scribble .txt{font-size:3.8rem}
+  .scrollcue{font-size:1.16rem}
+  .method-aside h3{font-size:clamp(3.8rem,5.4vw,5.4rem)}
+  .method-aside p{font-size:2rem}
+  .mstep .n{font-size:1.32rem}
+  .mstep .mt{font-size:2.4rem}
+  .mstep .md{font-size:1.9rem}
+  .craft-card .n{font-size:1.32rem}
+  .craft-card h3{font-size:3.1rem}
+  .craft-card p{font-size:1.96rem}
+  .craft-card .tick{font-size:1.16rem}
+  .arch-cred .row{font-size:1.84rem}
+  .arch-cred .row .k{font-size:1.2rem}
+  .field label{font-size:1.16rem}
+  .field input,.field select{font-size:1.9rem}
+  .form-note{font-size:1.12rem}
+  .form-done h4{font-size:3rem}
+  .form-done p{font-size:1.9rem}
+  .social-link{font-size:1.32rem}
+  .foot-brand{font-size:2.8rem}
+  .foot-col h5{font-size:1.2rem}
+  .foot-col a,.foot-col p{font-size:1.8rem}
+  .foot-base{font-size:1.16rem}
+  #introSkip{font-size:1.16rem}
+  .tab{font-size:1.32rem}
+  .pane h3{font-size:3rem}
+  .pane h4{font-size:2.1rem}
+  .role{font-size:1.28rem}
+  .dl>div{font-size:1.88rem}
+  .dl .k{font-size:1.2rem}
+  .team-note,.soft-note{font-size:1.24rem}
+  .price-row .amt{font-size:1.64rem}
+  .case-tile>span:first-child{font-size:1.9rem}
+  .case-tile .soon{font-size:1.08rem}
+  .ethos-list .k{font-size:1.32rem}
+  .nav-links .drop a{font-size:1.24rem}
+  .practice-card .pn{font-size:1.24rem}
+  .practice-card h3{font-size:2.8rem}
+  .practice-card p{font-size:1.84rem}
+  .practice-card .go{font-size:1.2rem}
+  footer .foot-grid>div>p[style]{font-size:1.7rem!important}
+  /* the nav can't hold 2x labels on one line — brand + CTA stay on row one,
+     the plates wrap onto row two */
+  .nav,.nav.s{flex-wrap:wrap;row-gap:1.1rem;padding-top:1.1rem;padding-bottom:1.1rem}
+  .nav-links{order:3;flex-basis:100%;flex-wrap:wrap;justify-content:flex-start;gap:.7rem}
+  .brand{max-width:58%}
+  /* wider measure so 2x type doesn't wrap every three words */
+  .hero-copy{max-width:900px}
+  .method-head,.sec-head{max-width:900px}
+  .method-media{grid-template-columns:1fr 1fr;gap:2.4rem}
+  .method-aside{max-width:none}
+}
 </style>
 </head>
 <body>
