@@ -8,7 +8,7 @@
 <script>document.documentElement.className += ' js';</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -19,21 +19,21 @@
   --ease:cubic-bezier(.19,1,.22,1);
 }
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',serif;font-weight:500;font-size:18.5px;line-height:1.6;letter-spacing:.003em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%}
 
 #bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
 .nav,.hero,.section,.morph-sec,footer{position:relative;z-index:1}
 
-.mono{font-family:'Manrope',sans-serif}
-.ey{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);display:inline-block}
-.h-display{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.9rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:-.008em}
-.h-sec{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(2.1rem,4.7vw,3.5rem);line-height:1.08;letter-spacing:-.006em}
+.mono{font-family:'Space Mono',monospace}
+.ey{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--blue);display:inline-block}
+.h-display{font-family:'Manrope',sans-serif;font-weight:300;font-size:clamp(2.9rem,7.4vw,6.4rem);line-height:1.02;letter-spacing:-.035em}
+.h-sec{font-family:'Manrope',sans-serif;font-weight:300;font-size:clamp(2.1rem,4.7vw,3.5rem);line-height:1.08;letter-spacing:-.028em}
 .h-display em,.h-sec em{font-style:normal;color:var(--blue);font-weight:600}
 .lead{font-size:clamp(1.05rem,1.35vw,1.2rem);line-height:1.72;color:var(--ink-2);font-weight:300}
 .spk{display:inline-block;width:1em;height:1em;vertical-align:-.12em;fill:var(--blue)}
 
-.btn{font-family:'Manrope',sans-serif;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;padding:1.02rem 1.9rem;border-radius:3px;text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;transition:background .35s,color .35s,border-color .35s,transform .35s;cursor:pointer;border:1px solid transparent}
+.btn{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;padding:1.02rem 1.9rem;border-radius:3px;text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;transition:background .35s,color .35s,border-color .35s,transform .35s;cursor:pointer;border:1px solid transparent}
 .btn-fill{background:var(--blue);color:var(--white)}
 .btn-fill:hover{background:var(--ink);transform:translateY(-2px)}
 .btn-line{border-color:var(--line-2);color:var(--blue);background:transparent}
@@ -54,18 +54,18 @@ img,video{display:block;max-width:100%}
 
 .plate{position:relative;padding:20px}
 .plate .frame{position:relative;border:1px solid var(--line-2);background:var(--white);overflow:hidden}
-.plate .cap{font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-top:.9rem;display:flex;justify-content:space-between;gap:1rem}
+.plate .cap{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-top:.9rem;display:flex;justify-content:space-between;gap:1rem}
 
 /* NAV */
 .nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;transition:padding .4s,background .4s,border-color .4s;border-bottom:1px solid transparent}
 .nav.s{padding:1rem 3rem;background:rgba(245,240,231,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:.5rem;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:3.84rem;letter-spacing:0;color:var(--ink);text-decoration:none;line-height:1}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:3.84rem;letter-spacing:-.02em;color:var(--ink);text-decoration:none;line-height:1}
 .brand .spk{width:.8em;height:.8em}
 .brand-logo{width:120px;height:120px;object-fit:contain;display:block;mix-blend-mode:multiply}
 .nav-links{display:flex;gap:1.4rem;list-style:none;align-items:center}
-.nav-links a{font-family:'Manrope',sans-serif;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;transition:color .3s}
 .nav-links a:hover{color:var(--blue)}
-.nav-cta{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;background:var(--blue);color:var(--white);border-radius:3px;text-decoration:none;transition:background .3s,transform .3s}
+.nav-cta{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;background:var(--blue);color:var(--white);border-radius:3px;text-decoration:none;transition:background .3s,transform .3s}
 .nav-cta:hover{background:var(--ink);transform:translateY(-1px)}
 
 /* HERO */
@@ -79,10 +79,10 @@ img,video{display:block;max-width:100%}
 .hero-copy .h-display{margin-bottom:1.5rem}
 .hero-copy .lead{max-width:44ch;margin-bottom:2.4rem}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
-.hero-coords{position:absolute;left:3rem;bottom:2rem;z-index:2;font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.hero-coords{position:absolute;left:3rem;bottom:2rem;z-index:2;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
 .mark-frame{aspect-ratio:16/9}
 .mark-frame video{width:100%;height:100%;object-fit:cover}
-.scrollcue{position:absolute;right:3rem;bottom:2rem;z-index:2;display:flex;align-items:center;gap:.7rem;font-family:'Manrope',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.scrollcue{position:absolute;right:3rem;bottom:2rem;z-index:2;display:flex;align-items:center;gap:.7rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
 .scrollcue .ln{width:34px;height:1px;background:var(--blue-2);transform-origin:left;animation:cue 2.4s ease-in-out infinite}
 @keyframes cue{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
 
@@ -104,8 +104,8 @@ img,video{display:block;max-width:100%}
 .method-frame{aspect-ratio:1408/916}
 .method-frame img{width:100%;height:100%;object-fit:cover}
 .method-steps{margin-top:3rem;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;border-top:1px solid var(--line);padding-top:2.6rem}
-.mstep .n{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.14em;color:var(--blue);display:block;margin-bottom:.8rem}
-.mstep .mt{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.2rem;margin-bottom:.4rem;letter-spacing:-.01em}
+.mstep .n{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--blue);display:block;margin-bottom:.8rem}
+.mstep .mt{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.2rem;margin-bottom:.4rem;letter-spacing:-.01em}
 .mstep .md{color:var(--ink-2);font-size:.95rem;line-height:1.6}
 
 /* TOOTH → IMPLANT MORPH */
@@ -126,10 +126,10 @@ img,video{display:block;max-width:100%}
 .craft-card{background:rgba(245,240,231,.55);padding:2.6rem 2.4rem;position:relative;transition:background .4s,transform .4s}
 .section.alt .craft-card{background:rgba(239,232,219,.55)}
 .craft-card:hover{background:rgba(251,248,242,.9);transform:translateY(-3px)}
-.craft-card .n{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.14em;color:var(--blue);margin-bottom:1.4rem;display:block}
-.craft-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;margin-bottom:.7rem;letter-spacing:-.015em}
+.craft-card .n{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.14em;color:var(--blue);margin-bottom:1.4rem;display:block}
+.craft-card h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.55rem;margin-bottom:.7rem;letter-spacing:-.015em}
 .craft-card p{color:var(--ink-2);font-size:.98rem;line-height:1.65;font-weight:300}
-.craft-card .tick{margin-top:1.4rem;font-family:'Manrope',sans-serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+.craft-card .tick{margin-top:1.4rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 
 /* ARCHITECT */
 .arch{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
@@ -137,39 +137,39 @@ img,video{display:block;max-width:100%}
 .arch .plate .frame img{width:100%;height:100%;object-fit:cover}
 .arch-cred{margin-top:2rem;display:flex;flex-direction:column;gap:.5rem}
 .arch-cred .row{display:flex;gap:1rem;font-size:.92rem;color:var(--ink-2);padding:.55rem 0;border-bottom:1px solid var(--line);font-weight:300}
-.arch-cred .row .k{font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);min-width:8.5rem;padding-top:.15rem;font-weight:400}
+.arch-cred .row .k{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);min-width:8.5rem;padding-top:.15rem;font-weight:400}
 
 /* WAITLIST */
 .wait{position:relative;overflow:hidden}
 .wait-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center;position:relative;z-index:2}
 .wait-form{background:rgba(251,248,242,.9);border:1px solid var(--line-2);padding:2.4rem}
 .field{margin-bottom:1.1rem}
-.field label{display:block;font-family:'Manrope',sans-serif;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:.4rem}
-.field input,.field select{width:100%;background:var(--paper);border:1px solid var(--line-2);border-radius:3px;color:var(--ink);padding:.72rem .85rem;font-family:'Cormorant Garamond',serif;font-size:.95rem;outline:none;transition:border-color .3s}
+.field label{display:block;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:.4rem}
+.field input,.field select{width:100%;background:var(--paper);border:1px solid var(--line-2);border-radius:3px;color:var(--ink);padding:.72rem .85rem;font-family:'Manrope',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s}
 .field input:focus,.field select:focus{border-color:var(--blue)}
 .field select{appearance:none}
 .form-send{width:100%;margin-top:.5rem;justify-content:center}
-.form-note{font-family:'Manrope',sans-serif;font-size:.56rem;letter-spacing:.06em;color:var(--ink-3);margin-top:1rem;line-height:1.8}
+.form-note{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.06em;color:var(--ink-3);margin-top:1rem;line-height:1.8}
 .form-done{display:none;text-align:center;padding:2rem 1rem}
 .form-done .spk{width:2rem;height:2rem;margin-bottom:1rem}
-.form-done h4{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.5rem;margin-bottom:.5rem;letter-spacing:-.01em}
+.form-done h4{font-family:'Manrope',sans-serif;font-weight:500;font-size:1.5rem;margin-bottom:.5rem;letter-spacing:-.01em}
 .form-done p{color:var(--ink-2);font-size:.95rem;font-weight:300}
 .wait.done .wait-form-inner{display:none}
 .wait.done .form-done{display:block}
 .social-row{display:flex;gap:1rem;margin-top:2rem}
-.social-link{display:inline-flex;align-items:center;gap:.6rem;font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);text-decoration:none;border:1px solid var(--line-2);border-radius:3px;padding:.7rem 1.2rem;transition:all .3s}
+.social-link{display:inline-flex;align-items:center;gap:.6rem;font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);text-decoration:none;border:1px solid var(--line-2);border-radius:3px;padding:.7rem 1.2rem;transition:all .3s}
 .social-link:hover{border-color:var(--blue);background:rgba(47,79,124,.04)}
 .social-link svg{width:16px;height:16px;fill:currentColor}
 
 /* FOOTER */
 footer{background:var(--ink);color:#c9c6bd;padding:4rem 3rem 2.5rem}
 .foot-grid{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2rem}
-.foot-brand{display:flex;align-items:center;gap:.6rem;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;color:var(--white);letter-spacing:-.01em}
+.foot-brand{display:flex;align-items:center;gap:.6rem;font-family:'Manrope',sans-serif;font-weight:600;font-size:1.4rem;color:var(--white);letter-spacing:-.01em}
 .foot-brand .spk{fill:var(--blue-3);width:.8em;height:.8em}
-.foot-col h5{font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-3);margin-bottom:1rem}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-3);margin-bottom:1rem}
 .foot-col a,.foot-col p{color:#c9c6bd;text-decoration:none;font-size:.9rem;display:block;margin-bottom:.5rem;transition:color .3s;font-weight:300}
 .foot-col a:hover{color:var(--white)}
-.foot-base{max-width:1240px;margin:3rem auto 0;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-family:'Manrope',sans-serif;font-size:.58rem;letter-spacing:.08em;color:#8b887f}
+.foot-base{max-width:1240px;margin:3rem auto 0;padding-top:1.6rem;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;color:#8b887f}
 
 /* MOTION (content is visible by default; these only animate WITH .in) */
 html.js .reveal{opacity:0;transform:translateY(34px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
@@ -194,7 +194,7 @@ html:not(.js) #intro{display:none}
 #introMark{width:min(66vw,620px);will-change:transform;transform-origin:center center}
 #introMark .frame{position:relative;border:1px solid var(--line-2);background:var(--white);overflow:hidden;aspect-ratio:16/9}
 #introMark video{width:100%;height:100%;object-fit:cover;display:block}
-#introSkip{position:absolute;bottom:2rem;right:2rem;z-index:2;font-family:'Manrope',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;border:1px solid var(--line-2);padding:.5rem 1rem;border-radius:3px;transition:all .3s}
+#introSkip{position:absolute;bottom:2rem;right:2rem;z-index:2;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;border:1px solid var(--line-2);padding:.5rem 1rem;border-radius:3px;transition:all .3s}
 #introSkip:hover{color:var(--blue);border-color:var(--blue)}
 
 @media(max-width:940px){
@@ -229,47 +229,47 @@ html:not(.js) #intro{display:none}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--paper-2)}::-webkit-scrollbar-thumb{background:var(--blue-2)}
 /* TABBED PRACTICE SECTION */
 .tab-bar{display:flex;gap:.1rem;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:2.6rem}
-.tab{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2);background:none;border:none;border-bottom:2px solid transparent;padding:.85rem 1rem;margin-bottom:-1px;cursor:pointer;transition:color .3s,border-color .3s;white-space:nowrap}
+.tab{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2);background:none;border:none;border-bottom:2px solid transparent;padding:.85rem 1rem;margin-bottom:-1px;cursor:pointer;transition:color .3s,border-color .3s;white-space:nowrap}
 .tab:hover{color:var(--blue)}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
 .pane{display:none}
 .pane.active{display:block;animation:paneIn .5s var(--ease)}
 @keyframes paneIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .pane .lead{margin-bottom:1.3rem}
-.pane h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem;letter-spacing:-.01em;margin-bottom:.35rem}
-.pane h4{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.05rem;margin:1.7rem 0 .55rem}
+.pane h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.5rem;letter-spacing:-.01em;margin-bottom:.35rem}
+.pane h4{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.05rem;margin:1.7rem 0 .55rem}
 .pane p{color:var(--ink-2);font-weight:300;line-height:1.7;max-width:64ch}
-.role{font-family:'Manrope',sans-serif;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.role{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
 .dl{margin-top:1.6rem;display:flex;flex-direction:column;max-width:780px}
 .dl>div{display:flex;gap:1.2rem;padding:.72rem 0;border-bottom:1px solid var(--line);font-size:.94rem;color:var(--ink-2);font-weight:300}
-.dl .k{font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);min-width:9rem;flex-shrink:0;padding-top:.18rem}
-.team-note,.soft-note{font-family:'Manrope',sans-serif;font-size:.62rem;letter-spacing:.07em;color:var(--ink-3);margin-top:1.6rem}
+.dl .k{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);min-width:9rem;flex-shrink:0;padding-top:.18rem}
+.team-note,.soft-note{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.07em;color:var(--ink-3);margin-top:1.6rem}
 .price-list{margin-top:.6rem;max-width:640px}
 .price-row{display:flex;justify-content:space-between;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--line);font-weight:300;color:var(--ink)}
-.price-row .amt{font-family:'Manrope',sans-serif;font-size:.82rem;color:var(--blue);white-space:nowrap}
+.price-row .amt{font-family:'Space Mono',monospace;font-size:.82rem;color:var(--blue);white-space:nowrap}
 .portfolio-grid{margin-top:1.3rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:820px}
 .case-tile{background:rgba(245,240,231,.6);aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem}
-.case-tile>span:first-child{font-family:'Cormorant Garamond',serif;font-weight:600;color:var(--ink-2);font-size:.95rem}
-.case-tile .soon{font-family:'Manrope',sans-serif;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.case-tile>span:first-child{font-family:'Manrope',sans-serif;font-weight:600;color:var(--ink-2);font-size:.95rem}
+.case-tile .soon{font-family:'Space Mono',monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .ethos-list{margin-top:1.3rem;display:flex;flex-direction:column;gap:1.3rem;max-width:740px}
-.ethos-list .k{font-family:'Manrope',sans-serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.35rem}
+.ethos-list .k{font-family:'Space Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.35rem}
 @media(max-width:940px){ .portfolio-grid{grid-template-columns:repeat(2,1fr)} .dl>div{flex-direction:column;gap:.25rem} .dl .k{min-width:0} }
 /* PRACTICE NAV DROPDOWN */
 .nav-links .has-drop{position:relative}
 .nav-links .has-drop::after{content:'';position:absolute;top:100%;left:-10px;right:-10px;height:18px}
 .nav-links .drop{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(16px);min-width:212px;background:rgba(245,240,231,.98);backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:5px;padding:.45rem;list-style:none;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,transform .25s;box-shadow:0 16px 42px rgba(30,37,48,.13);z-index:90}
 .nav-links .has-drop:hover .drop,.nav-links .has-drop:focus-within .drop{opacity:1;visibility:visible;transform:translateX(-50%) translateY(9px)}
-.nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Manrope',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
+.nav-links .drop a{display:block;padding:.6rem .9rem;border-radius:3px;font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);white-space:nowrap}
 .nav-links .drop a:hover{background:rgba(47,79,124,.07);color:var(--blue)}
 @media(max-width:1150px){ .brand{font-size:2rem} .brand-logo{width:76px;height:76px} }
 /* PRACTICE MENU CARDS */
 .practice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:.5rem}
 .practice-card{background:rgba(245,240,231,.6);padding:2.2rem 2rem;text-decoration:none;display:flex;flex-direction:column;gap:.5rem;transition:background .35s,transform .35s}
 .practice-card:hover{background:var(--white);transform:translateY(-3px)}
-.practice-card .pn{font-family:'Manrope',sans-serif;font-size:.62rem;letter-spacing:.14em;color:var(--blue)}
-.practice-card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink)}
+.practice-card .pn{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;color:var(--blue)}
+.practice-card h3{font-family:'Manrope',sans-serif;font-weight:600;font-size:1.4rem;letter-spacing:-.01em;color:var(--ink)}
 .practice-card p{color:var(--ink-2);font-weight:300;font-size:.92rem;line-height:1.55;flex-grow:1}
-.practice-card .go{font-family:'Manrope',sans-serif;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.practice-card .go{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
 @media(max-width:940px){.practice-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -298,12 +298,10 @@ html:not(.js) #intro{display:none}
     <li><a href="#tools">The Method</a></li>
     <li><a href="#implant">The Implant</a></li>
     <li><a href="#craft">The Craft</a></li>
-    <li><a href="#architect">The Architect</a></li>
     <li class="has-drop">
       <a href="#practice">The Practice</a>
       <ul class="drop">
         <li><a href="about.html">About</a></li>
-        <li><a href="team.html">Meet the Team</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="location.html">Location</a></li>
         <li><a href="pricing.html">Pricelist &amp; Finance</a></li>
@@ -341,7 +339,7 @@ html:not(.js) #intro{display:none}
       <span class="ey">Fig. 01 — Smile Design</span>
       <h2 class="h-sec">Every smile begins as a <em>drawing.</em></h2>
       <div class="rule"></div>
-      <p class="lead" style="max-width:60ch">Our clinical protocol is strictly rooted in the exacting standards of the UCL Eastman Dental Institute, integrating advanced biomechanical principles with evidence-based science. By meticulously managing every restorative parameter, we ensure complex rehabilitations achieve uncompromising structural integrity and seamless integration. This analytical approach guarantees that maximum functional predictability is always balanced with optimal aesthetic outcomes.</p>
+      <p class="lead" style="max-width:60ch">Our clinical protocol is strictly rooted in exacting standards, integrating advanced biomechanical principles with evidence-based science. By meticulously managing every restorative parameter, we ensure complex rehabilitations achieve uncompromising structural integrity and seamless integration. This analytical approach guarantees that maximum functional predictability is always balanced with optimal aesthetic outcomes.</p>
     </div>
     <div class="pw" data-speed="0.06">
       <div class="reg reveal-fade media-reveal">
@@ -369,7 +367,7 @@ html:not(.js) #intro{display:none}
       <div class="inner">
         <span class="ey">Fig. 02 — The Method</span>
         <h2 class="h-sec">Precision,<br>under the <em>lens.</em></h2>
-        <p class="lead">Prosthodontics is a discipline of magnification. We work under the lens — from loupes to the microscope — refining every margin, contact and contour at a scale the naked eye cannot resolve. Grounded in postgraduate prosthodontic training at the UCL Eastman Dental Institute and paired with today’s digital tools — intraoral scanning, CBCT, coDiagnostiX planning and CAD/CAM design — this precision lets us plan and build complex restorations to the finest tolerances.</p>
+        <p class="lead">Prosthodontics is a discipline of magnification. We work under the lens — from loupes to the microscope — refining every margin, contact and contour at a scale the naked eye cannot resolve. Grounded in rigorous prosthodontic principles and paired with today’s digital tools — intraoral scanning, CBCT, coDiagnostiX planning and CAD/CAM design — this precision lets us plan and build complex restorations to the finest tolerances.</p>
         <p class="lead">From intraoral scanning and CBCT to coDiagnostiX-guided planning and CAD/CAM milling, the pathway is fully digital, measured and repeatable — so the smile we design is the smile we deliver.</p>
         <div class="morph-progress"><i id="toolsBar"></i></div>
       </div>
@@ -429,21 +427,10 @@ html:not(.js) #intro{display:none}
   </div>
 </section>
 
-<!-- ARCHITECT -->
-<section class="section deep" id="architect">
+<!-- THE MARK -->
+<section class="section deep" id="mark">
   <div class="wrap">
-    <div class="arch">
-      <div class="reveal">
-        <span class="ey">The Architect</span>
-        <h2 class="h-sec" style="margin:1.1rem 0 1.2rem">Dr. Athanasios<br>Tsiakyroudis</h2>
-        <div class="rule" style="width:90px;margin-bottom:1.6rem"></div>
-        <p class="lead" style="max-width:54ch">Athanasios Tsiakyroudis is a London-based dentist with a special interest in prosthodontics, holding an MSc in Prosthodontics from the UCL Eastman Dental Institute and a PgDip in Implant Dentistry. With over a decade of clinical experience in the United Kingdom, his expertise encompasses full-arch rehabilitations, digital smile design, and minimally invasive aesthetic techniques, including injection moulding. Committed strictly to evidence-based care, he is highly proficient in advanced digital workflows, 3D surgical planning, and CAD/CAM technologies, maintaining active professional memberships with the BSSPD and ITI.</p>
-        <div class="arch-cred">
-          <div class="row"><span class="k">Specialty</span><span>Prosthodontics &amp; Dental Implants</span></div>
-          <div class="row"><span class="k">Education</span><span>DDS, Aristotle University of Thessaloniki · MSc Prosthodontics, UCL Eastman Dental Institute · PgDip Implant Dentistry</span></div>
-          <div class="row"><span class="k">Member</span><span>ITI · British Society for the Study of Prosthetic Dentistry</span></div>
-        </div>
-      </div>
+    <div class="arch" style="grid-template-columns:1fr;max-width:460px;margin:0 auto">
       <div class="pw" data-speed="0.05">
         <div class="reg reveal-fade media-reveal">
           <div class="plate">
@@ -471,12 +458,11 @@ html:not(.js) #intro{display:none}
     <div class="reveal d1">
             <div class="practice-grid stagger">
         <a class="practice-card" href="about.html"><span class="pn">01</span><h3>About</h3><p>Who we are and the design-first philosophy behind the clinic.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="team.html"><span class="pn">02</span><h3>Meet the Team</h3><p>Dr. Athanasios Tsiakyroudis — background, training and focus.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="contact.html"><span class="pn">03</span><h3>Contact</h3><p>How to reach us and register your interest.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="location.html"><span class="pn">04</span><h3>Location</h3><p>Where to find the studio in Kavála.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="pricing.html"><span class="pn">05</span><h3>Pricelist &amp; Finance</h3><p>Indicative pricing and payment options.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="portfolio.html"><span class="pn">06</span><h3>Case Portfolio</h3><p>Before-and-after transformations — coming at launch.</p><span class="go">Open page →</span></a>
-        <a class="practice-card" href="ethos.html"><span class="pn">07</span><h3>Practice Ethos</h3><p>The principles that guide our work.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="contact.html"><span class="pn">02</span><h3>Contact</h3><p>How to reach us and register your interest.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="location.html"><span class="pn">03</span><h3>Location</h3><p>Where to find the studio in Kavála.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="pricing.html"><span class="pn">04</span><h3>Pricelist &amp; Finance</h3><p>Indicative pricing and payment options.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="portfolio.html"><span class="pn">05</span><h3>Case Portfolio</h3><p>Before-and-after transformations — coming at launch.</p><span class="go">Open page →</span></a>
+        <a class="practice-card" href="ethos.html"><span class="pn">06</span><h3>Practice Ethos</h3><p>The principles that guide our work.</p><span class="go">Open page →</span></a>
       </div>
     </div>
   </div>
